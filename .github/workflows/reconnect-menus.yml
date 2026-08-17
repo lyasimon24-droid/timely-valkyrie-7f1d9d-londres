@@ -14,44 +14,26 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Add the new menu links safely
+      - name: Install the shared side menu on every travel page
         shell: python
         run: |
           from pathlib import Path
-          p = Path('index.html')
-          s = p.read_text(encoding='utf-8')
-
-          side_links = '''
-          <a href="anglais.html"><span class="ico">Aa</span>Anglais</a>
-          <a href="valises.html"><span class="ico">🧳</span>Valises</a>
-          <a href="survivre-londres.html"><span class="ico">☂</span>Survivre</a>
-          <a href="automne-londres-harry-potter.html"><span class="ico">✉</span>Harry Potter</a>
-          '''
-
-          menu_cards = '''
-          <a class="card" href="anglais.html">09 Aa<h2>Anglais de survie</h2><span class="go">ouvrir →</span></a>
-          <a class="card" href="valises.html">10 🧳<h2>Nos valises</h2><span class="go">ouvrir →</span></a>
-          <a class="card" href="survivre-londres.html">11 ☂<h2>Survivre à Londres</h2><span class="go">ouvrir →</span></a>
-          <a class="card" href="automne-londres-harry-potter.html">12 ✉<h2>Automne & Harry Potter</h2><span class="go">ouvrir →</span></a>
-          '''
-
-          if 'href="anglais.html"' not in s:
-              s = s.replace('</div></nav>', side_links + '</div></nav>', 1)
-
-          if '<a class="card" href="anglais.html">' not in s:
-              marker = '</div></section>\n<main>'
-              if marker in s:
-                  s = s.replace(marker, menu_cards + '</div></section>\n<main>', 1)
-              else:
-                  raise SystemExit('Menu card marker not found; no file changed')
-
-          p.write_text(s, encoding='utf-8')
-
+          for p in Path('.').glob('*.html'):
+              if p.name in {'index.html', 'final.html'}:
+                  continue
+              s = p.read_text(encoding='utf-8')
+              css = '<link rel="stylesheet" href="menu.css">'
+              js = '<script src="menu.js"></script>'
+              if css not in s:
+                  s = s.replace('</head>', css + '</head>', 1)
+              if js not in s:
+                  s = s.replace('</body>', js + '</body>', 1)
+              p.write_text(s, encoding='utf-8')
       - name: Commit only the menu connection
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html
+          git add '*.html'
           git diff --cached --quiet && exit 0
           git commit -m "Reconnect travel menus automatically"
           git push
