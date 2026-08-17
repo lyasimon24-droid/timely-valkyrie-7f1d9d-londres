@@ -94,10 +94,17 @@ body{padding-left:88px}
 .opening-copy{position:absolute;z-index:5;bottom:7%;text-align:center;text-shadow:0 3px 20px #000;transition:opacity 1s}.opening-copy h1{font:600 clamp(32px,6vw,62px) 'Cormorant Garamond';margin:0}.opening-copy p{font-size:10px;letter-spacing:.18em;text-transform:uppercase;opacity:.8}.opening-hint{opacity:0;transition:opacity 1s 4.5s}.bigben-scene.close~.opening-copy .opening-hint{opacity:1}
 #welcome-screen{position:fixed;inset:0;z-index:10001;background:radial-gradient(circle at center,#4b3940,#17131b 65%,#08080c);display:flex;align-items:center;justify-content:center;text-align:center;color:#f4e6d2;opacity:0;pointer-events:none;transition:opacity 1.2s}.welcome-inner{padding:40px}.welcome-inner .small{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#d5a17e}.welcome-inner h2{font:600 clamp(45px,8vw,92px)/.9 'Cormorant Garamond';margin:20px 0}.welcome-inner p{font-size:12px;letter-spacing:.08em}.welcome-show{opacity:1!important;pointer-events:auto!important}
 @media(max-width:700px){.bigben-scene{transform:translateX(-50%) scale(.33)}.bigben-scene.close{transform:translateX(-50%) scale(1.2)}.opening-moon{width:90px;height:90px}}
+
+/* THEMATIC MENU TRANSITIONS */
+#menu-transition{position:fixed;inset:0;z-index:10050;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;transition:opacity .35s;background:#10171c}
+#menu-transition.show{opacity:1}.transition-title{font:600 clamp(42px,8vw,90px) 'Cormorant Garamond';color:#f4e7d5;text-align:center;text-shadow:0 4px 30px #000}
+.travel-particle{position:absolute;pointer-events:none;animation:particleMove 1.5s ease-in forwards;font-size:var(--size)}@keyframes particleMove{0%{transform:translate(0,0) rotate(0);opacity:1}100%{transform:translate(var(--dx),var(--dy)) rotate(var(--rot));opacity:0}}
+.menu-active{animation:sectionReveal .8s ease both}@keyframes sectionReveal{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.interactive-badge{display:inline-flex;align-items:center;gap:7px;margin-top:18px;padding:9px 13px;border-radius:999px;background:#ffffff12;border:1px solid #ffffff22;font-size:9px;letter-spacing:.08em;text-transform:uppercase}
 </style>
 </head>
 <body>
-<div id="top"></div><div id="london-opening"><div class="opening-sky"></div><div class="opening-moon"></div><div class="opening-city"></div><div class="bigben-scene" id="bigben"><div class="tower"></div><div class="clock"></div><button class="opening-door" id="opening-door" aria-label="Ouvrir la porte"></button></div><div class="opening-copy"><p>London · October 2026</p><h1>Une nouvelle histoire commence…</h1><p class="opening-hint">✦ Approche-toi de Big Ben et ouvre la porte ✦</p></div></div><div id="welcome-screen"><div class="welcome-inner"><div class="small">London · October 2026</div><h2>Bienvenue dans notre voyage à Londres.</h2><p>✦ La porte s'ouvre… ✦</p></div></div><div id="bat-transition" aria-hidden="true"></div>
+<div id="top"></div><div id="menu-transition" aria-hidden="true"><div class="transition-title"></div></div><div id="london-opening"><div class="opening-sky"></div><div class="opening-moon"></div><div class="opening-city"></div><div class="bigben-scene" id="bigben"><div class="tower"></div><div class="clock"></div><button class="opening-door" id="opening-door" aria-label="Ouvrir la porte"></button></div><div class="opening-copy"><p>London · October 2026</p><h1>Une nouvelle histoire commence…</h1><p class="opening-hint">✦ Approche-toi de Big Ben et ouvre la porte ✦</p></div></div><div id="welcome-screen"><div class="welcome-inner"><div class="small">London · October 2026</div><h2>Bienvenue dans notre voyage à Londres.</h2><p>✦ La porte s'ouvre… ✦</p></div></div><div id="bat-transition" aria-hidden="true"></div>
 <nav class="side" aria-label="Navigation principale">
 <div class="sideLogo">L♡</div>
 <div class="sideNav">
@@ -225,4 +232,31 @@ document.addEventListener('DOMContentLoaded',()=>{
   setTimeout(()=>scene.classList.add('close'),900);
   door.addEventListener('click',()=>{welcome.classList.add('welcome-show');setTimeout(()=>{welcome.classList.remove('welcome-show');open.classList.add('gone');window.scrollTo({top:0,behavior:'instant'});},2800);});
 });
-</script></body></html>
+</script>
+<script>
+const menuThemes={
+  participants:{title:'Les voyageurs ✈️',chars:['✈️','☁️','💌','♡'],bg:'#263f4b'},
+  trajets:{title:'En route… 🚆',chars:['🚆','💨','🎫','→'],bg:'#243d42'},
+  activites:{title:'London calling ✨',chars:['☕','🎡','🎨','🎟️'],bg:'#4a3b31'},
+  journees:{title:'Notre carnet de route 🗓️',chars:['☀️','☕','📍','→'],bg:'#3f493b'},
+  logement:{title:'Home sweet home 🏠',chars:['🔑','🕯️','🛏️','♡'],bg:'#40352f'},
+  budget:{title:'Les comptes du voyage £',chars:['£','£','🪙','✦'],bg:'#344337'},
+  valise:{title:'On prépare les valises 🧳',chars:['🧳','👗','👟','🎀'],bg:'#493b43'},
+  halloween:{title:'After dark… 🎃',chars:['🦇','🌙','🕯️','🧙‍♀️'],bg:'#17121d'}
+};
+function menuKey(h){return (h||'').replace('#','').toLowerCase()}
+function launchMenuTransition(key){
+  if(key==='top') return;
+  const t=document.getElementById('menu-transition'),title=t?.querySelector('.transition-title'); if(!t||!title)return;
+  const d=menuThemes[key]||{title:'London ✨',chars:['✦'],bg:'#27352f'}; t.style.background=d.bg; title.textContent=d.title; t.classList.add('show');
+  for(let i=0;i<34;i++){const p=document.createElement('span');p.className='travel-particle';p.textContent=d.chars[i%d.chars.length];p.style.left=Math.random()*100+'vw';p.style.top=Math.random()*100+'vh';p.style.setProperty('--dx',(Math.random()*70-35)+'vw');p.style.setProperty('--dy',(Math.random()*70-35)+'vh');p.style.setProperty('--rot',(Math.random()*300-150)+'deg');p.style.setProperty('--size',(12+Math.random()*28)+'px');p.style.animationDelay=(Math.random()*.25)+'s';t.appendChild(p)}
+  setTimeout(()=>{t.classList.remove('show');t.querySelectorAll('.travel-particle').forEach(x=>x.remove())},1250);
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    const key=menuKey(a.getAttribute('href'));
+    if(menuThemes[key]) a.addEventListener('click',e=>{ if(key==='halloween') return; e.preventDefault(); launchMenuTransition(key); setTimeout(()=>document.getElementById(key)?.scrollIntoView({behavior:'smooth',block:'start'}),650); });
+  });
+});
+</script>
+</body></html>
