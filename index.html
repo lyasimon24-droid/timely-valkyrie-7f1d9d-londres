@@ -58,10 +58,31 @@ body{padding-left:88px}
 .haunted-note{margin-top:22px;padding:17px;border:1px solid #6f4c55;background:#241c24;border-radius:15px;color:#d7c8bd;font-size:11px;line-height:1.7}
 .bat{display:inline-block;animation:floatbat 3s ease-in-out infinite}@keyframes floatbat{50%{transform:translateY(-7px) rotate(-3deg)}}
 @media(max-width:900px){.spooky-grid{grid-template-columns:1fr 1fr}}@media(max-width:700px){.spooky-grid{grid-template-columns:1fr}}
+
+/* CINEMATIC HALLOWEEN */
+#bat-transition{position:fixed;inset:0;z-index:9999;background:#050509;display:none;overflow:hidden;pointer-events:none}
+#bat-transition.active{display:block;animation:fadeBlack 2.8s ease forwards}
+.flying-bat{position:absolute;color:#050509;font-size:28px;filter:drop-shadow(0 0 2px #050509);animation:batFly var(--dur) cubic-bezier(.2,.7,.2,1) forwards;animation-delay:var(--delay);left:var(--x);top:var(--y)}
+@keyframes batFly{0%{transform:translate(-20vw,20vh) rotate(-12deg) scale(.2);opacity:0}15%{opacity:1}100%{transform:translate(var(--dx),var(--dy)) rotate(var(--rot)) scale(var(--scale));opacity:1}}
+@keyframes fadeBlack{0%{background:#050509}70%{background:#000}100%{background:#000}}
+.halloween-cinematic{min-height:900px;background:radial-gradient(circle at 50% 22%,#f0d49a 0 9%,#b78b78 10%,#33243d 19%,transparent 20%),radial-gradient(circle at 50% 20%,#e9d5a5 0 7%,#181827 7.5%,transparent 13%),linear-gradient(#090b1b 0%,#121126 45%,#251925 72%,#0b0b10 100%);position:relative;overflow:hidden;color:#eee6dc}
+.halloween-cinematic:before{content:'';position:absolute;inset:0;background-image:radial-gradient(#fff 1px,transparent 1.5px),radial-gradient(#fff 1px,transparent 1.5px),radial-gradient(#d6b47a 1px,transparent 1.5px);background-size:83px 91px,137px 113px,211px 177px;background-position:10px 20px,40px 60px,100px 10px;opacity:.6;pointer-events:none}
+.moon{position:absolute;width:250px;height:250px;border-radius:50%;right:10%;top:65px;background:radial-gradient(circle at 35% 35%,#fff8d7,#f0d7a0 62%,#b98b83 100%);box-shadow:0 0 45px #f7e3b877,0 0 130px #f0c99533;z-index:1}
+.moon:after{content:'';position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 28% 25%,#8e6f6330 0 5%,transparent 6%),radial-gradient(circle at 65% 55%,#8e6f6330 0 7%,transparent 8%),radial-gradient(circle at 45% 75%,#8e6f6330 0 4%,transparent 5%)}
+.manor{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:min(850px,90vw);height:420px;background:#111018;border-radius:8px 8px 0 0;z-index:2;box-shadow:0 -15px 50px #0009}
+.manor:before{content:'';position:absolute;left:-100px;bottom:0;width:210px;height:330px;background:#101018;border-radius:8px 8px 0 0;clip-path:polygon(0 100%,0 25%,50% 0,100% 25%,100% 100%)}
+.manor:after{content:'';position:absolute;right:-100px;bottom:0;width:210px;height:330px;background:#101018;border-radius:8px 8px 0 0;clip-path:polygon(0 100%,0 25%,50% 0,100% 25%,100% 100%)}
+.tower{position:absolute;width:115px;height:365px;bottom:0;background:#0e0e15;z-index:3}.tower.left{left:10px}.tower.right{right:10px}.tower:before{content:'';position:absolute;top:-75px;left:-15px;border-left:72px solid transparent;border-right:72px solid transparent;border-bottom:85px solid #0b0b11}
+.windows{position:absolute;inset:55px 45px auto;display:grid;grid-template-columns:repeat(4,1fr);gap:32px;z-index:4}.window{height:62px;background:#e9a94d;box-shadow:0 0 20px #e9a94d66;border-radius:50% 50% 8px 8px;position:relative}.window.dark{background:#20151a;box-shadow:none}.window.vampire:after{content:'🧛';position:absolute;font-size:30px;left:50%;top:16px;transform:translateX(-50%);animation:peek 5s infinite;opacity:0}@keyframes peek{0%,58%,100%{opacity:0;transform:translate(-50%,12px)}65%,82%{opacity:1;transform:translate(-50%,0)}}
+.door{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:105px;height:185px;background:#17131b;border:2px solid #40333b;border-bottom:0;border-radius:55px 55px 0 0;z-index:4}.door:after{content:'✦';position:absolute;right:13px;top:95px;color:#d8aa67}
+.witch{position:absolute;z-index:8;top:150px;left:-160px;font-size:42px;animation:witchRide 16s linear infinite;filter:drop-shadow(0 0 7px #b96532)}@keyframes witchRide{0%{left:-160px;transform:translateY(0) rotate(-4deg)}35%{transform:translateY(45px) rotate(3deg)}70%{transform:translateY(-20px) rotate(-2deg)}100%{left:110%;transform:translateY(20px) rotate(4deg)}}
+.spooky-content{position:relative;z-index:10;max-width:1200px;margin:auto;padding:80px 6vw 120px}.spooky-content .eyebrow{color:#d79a72}.spooky-content .title{color:#f0d2bd;text-shadow:0 3px 18px #000}
+.spooky-intro{max-width:720px;line-height:1.8;color:#d8c9bd}.spooky-grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:30px}.spooky-event{background:#17141dce;border:1px solid #72505a;border-radius:24px;overflow:hidden;backdrop-filter:blur(7px);box-shadow:0 20px 55px #0008;transition:.3s}.spooky-event:hover{transform:translateY(-6px);border-color:#c47a53}.spooky-event-head{padding:24px;background:linear-gradient(135deg,#30202a99,#14121a99)}.spooky-event h3{font:600 34px 'Cormorant Garamond';color:#f0d4c0;margin:8px 0}.spooky-event-body{padding:20px;font-size:12px;line-height:1.7;color:#d8cbc3}.event-meta{display:flex;gap:8px;flex-wrap:wrap}.event-pill{padding:7px 10px;border-radius:999px;background:#3b2932;color:#eab99f;font-size:9px;text-transform:uppercase;letter-spacing:.08em}.event-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.event-link{padding:10px 12px;border-radius:999px;background:#d9a078;color:#171219;font-size:9px;text-transform:uppercase;font-weight:600}.event-check{display:flex;gap:9px;align-items:center;margin-top:13px}.event-check input{accent-color:#b96532}.spooky-note{margin-top:22px;padding:17px;border:1px solid #6f4c55;background:#17141dcc;border-radius:15px;font-size:11px;line-height:1.7}
+@media(max-width:700px){.moon{width:170px;height:170px;right:4%;top:80px}.manor{height:310px}.tower{height:270px}.windows{gap:10px;inset:45px 25px auto}.window{height:45px}.spooky-grid2{grid-template-columns:1fr}.spooky-content{padding:60px 5vw 100px}}
 </style>
 </head>
 <body>
-<div id="top"></div>
+<div id="top"></div><div id="bat-transition" aria-hidden="true"></div>
 <nav class="side" aria-label="Navigation principale">
 <div class="sideLogo">L♡</div>
 <div class="sideNav">
@@ -131,17 +152,24 @@ body{padding-left:88px}
 </section>
 
 
-<section class="halloween" id="halloween">
-<div class="eyebrow">08 · Halloween à Londres</div>
-<h2 class="title">After dark. 🎃</h2>
-<p class="halloween-intro">Une partie dédiée à nos activités Halloween, avec une ambiance un peu plus spooky 🕯️. Les activités Halloween sont placées en <b>fin d'après-midi ou le soir</b>, comme prévu. Clique sur une activité pour voir les détails, les horaires prévus et les liens utiles.</p>
-<div class="spooky-grid">
-  <article class="spooky-card"><div class="spooky-head"><span class="spooky-icon bat">🦇</span><span class="spooky-time">Dimanche 25 · 17h00</span><h3>Hexmoor</h3></div><div class="spooky-body"><p>Expérience immersive et mystérieuse à intégrer après Hackney City Farm et Brick Lane. Prévoir une arrivée avant le début du créneau.</p><div class="spooky-links"><a class="spooky-link" href="https://www.google.com/maps/search/?api=1&query=Hexmoor+London" target="_blank">📍 Google Maps ↗</a><a class="spooky-link" href="https://hexmoor.co.uk/" target="_blank">🌐 Site ↗</a></div><label class="spooky-check"><input type="checkbox"> 🎟️ Réservation vérifiée</label></div></article>
-  <article class="spooky-card"><div class="spooky-head"><span class="spooky-icon">🌙</span><span class="spooky-time">Lundi 26 · à partir de 16h</span><h3>Halloween at Kew</h3></div><div class="spooky-body"><p>La parenthèse Halloween de Kew Gardens, programmée après la visite des jardins. Une activité pensée pour basculer doucement dans l'ambiance du soir.</p><div class="spooky-links"><a class="spooky-link" href="https://www.google.com/maps/search/?api=1&query=Kew+Gardens+London" target="_blank">📍 Google Maps ↗</a><a class="spooky-link" href="https://www.kew.org/kew-gardens/whats-on/halloween-at-kew" target="_blank">🌐 Site officiel ↗</a></div><label class="spooky-check"><input type="checkbox"> 🎟️ Réservation vérifiée</label></div></article>
-  <article class="spooky-card"><div class="spooky-head"><span class="spooky-icon">🕯️</span><span class="spooky-time">Ambiance · en soirée</span><h3>London by night</h3></div><div class="spooky-body"><p>Après les activités réservées, garder une petite balade nocturne dans Londres : rues illuminées, vitrines Halloween et quartiers animés. Sans ajouter une réservation obligatoire.</p><div class="spooky-links"><a class="spooky-link" href="https://www.google.com/maps/search/?api=1&query=Leicester+Square+London" target="_blank">📍 Leicester Square</a></div><label class="spooky-check"><input type="checkbox"> 🕸️ À faire si on a encore de l'énergie</label></div></article>
-</div>
-<div class="haunted-note"><span class="bat">🦇</span> <b>Notre règle spooky :</b> pas d'activité Halloween en plein milieu de matinée. On garde les frissons pour la fin de journée et le soir. Les créneaux affichés sont ceux prévus dans notre itinéraire et doivent être confirmés lors de la réservation.</div>
-</section>
+
+    <section class="halloween-cinematic" id="halloween">
+      <div class="moon"></div><div class="witch">🧙‍♀️🧹</div>
+      <div class="manor"><div class="tower left"></div><div class="tower right"></div><div class="windows"><div class="window vampire"></div><div class="window dark"></div><div class="window vampire"></div><div class="window"></div><div class="window"></div><div class="window vampire"></div><div class="window dark"></div><div class="window"></div></div><div class="door"></div></div>
+      <div class="spooky-content">
+        <div class="eyebrow">08 · After dark · London 2026</div>
+        <h2 class="title">Bienvenue au manoir. 🎃</h2>
+        <p class="spooky-intro">Ici, on quitte le carnet de voyage pour entrer dans notre petit monde Halloween. 🌙 Une ambiance spooky, des créatures qui bougent dans le décor et toutes nos activités réunies au même endroit. Les activités Halloween sont placées en fin d'après-midi ou le soir.</p>
+        <div class="spooky-grid2">
+          <article class="spooky-event"><div class="spooky-event-head"><div class="event-meta"><span class="event-pill">26 octobre · fin d'après-midi / soir</span><span class="event-pill">⭐ Incontournable</span></div><h3>🎃 Halloween at Kew</h3></div><div class="spooky-event-body"><p>Un trail lumineux d'environ 1,5 km dans Kew Gardens avec créatures légendaires, Dracula, feu, Headless Horseman et nouveau Cursed Tomb. Du 25 octobre au 1er novembre, les créneaux commencent à <b>16h</b>; les sessions Twilight sont 18h–19h30 et Moonlight après 19h30. Les jardins ferment à 22h, dernière entrée 20h30.</p><div class="event-actions"><a class="event-link" href="https://www.google.com/maps/search/?api=1&query=Kew+Gardens+London" target="_blank">📍 Maps</a><a class="event-link" href="https://www.kew.org/kew-gardens/whats-on/halloween-at-kew" target="_blank">🌐 Site officiel</a></div><label class="event-check"><input type="checkbox"> 🎟️ Billets réservés</label></div></article>
+          <article class="spooky-event"><div class="spooky-event-head"><div class="event-meta"><span class="event-pill">22–29 octobre</span><span class="event-pill">⭐ Suggestion</span></div><h3>🪄 Dark Arts · Warner Bros. Studio Tour</h3></div><div class="spooky-event-body"><p>Le Studio Tour passe en mode Halloween : plus de 100 citrouilles flottent dans la Grande Salle, les Mangemorts défilent, des Détraqueurs apparaissent et un parcours de la Marque des Ténèbres est proposé. L'événement se déroule du <b>16 septembre au 8 novembre 2026</b>. Les horaires du Studio Tour varient selon la date; le 30–31 octobre, il est ouvert jusqu'à 22h.</p><div class="event-actions"><a class="event-link" href="https://www.google.com/maps/search/?api=1&query=Warner+Bros+Studio+Tour+London" target="_blank">📍 Maps</a><a class="event-link" href="https://www.wbstudiotour.co.uk/fr/whats-on/dark-arts/" target="_blank">🌐 Site officiel</a></div><label class="event-check"><input type="checkbox"> 🎟️ Billets réservés</label></div></article>
+          <article class="spooky-event"><div class="spooky-event-head"><div class="event-meta"><span class="event-pill">Soirée · selon programmation</span><span class="event-pill">💡 Suggestion</span></div><h3>🕯️ Ghost walk à Londres</h3></div><div class="spooky-event-body"><p>Une balade nocturne autour des histoires de fantômes, lieux hantés et légendes londoniennes. C'est une bonne option pour une soirée légère sans bloquer une journée entière. Les opérateurs et horaires changent selon les dates : à réserver après vérification du programme.</p><div class="event-actions"><a class="event-link" href="https://www.visitlondon.com/things-to-do/event/7038642-things-to-do-for-halloween-in-london" target="_blank">🌐 Voir les options 2026</a></div><label class="event-check"><input type="checkbox"> 👻 Choisi</label></div></article>
+          <article class="spooky-event"><div class="spooky-event-head"><div class="event-meta"><span class="event-pill">Journée / soirée · 22–29 oct.</span><span class="event-pill">💡 Suggestion</span></div><h3>🏰 Tower of London · histoires hantées</h3></div><div class="spooky-event-body"><p>Le Tower of London fait partie des idées Halloween recensées pour octobre : prisonniers célèbres, Bloody Tower et histoires racontées par les Beefeaters. À privilégier en fin de journée si le créneau disponible le permet.</p><div class="event-actions"><a class="event-link" href="https://www.google.com/maps/search/?api=1&query=Tower+of+London" target="_blank">📍 Maps</a><a class="event-link" href="https://www.visitlondon.com/things-to-do/event/45909316-october-half-term-in-london" target="_blank">🌐 Infos 2026</a></div><label class="event-check"><input type="checkbox"> 🏰 À ajouter</label></div></article>
+        </div>
+        <div class="spooky-note">🦇 <b>Petit conseil :</b> Halloween at Kew est le seul événement que j'ai trouvé avec des horaires 2026 précisément publiés pour notre séjour et qui colle parfaitement à votre souhait de faire Halloween en fin de journée. Pour les autres suggestions, je laisse volontairement les horaires comme « selon programmation » plutôt que d'en inventer.</div>
+      </div>
+    </section>
+    
 
 </main><footer>London Autumn '26 · 22—29 octobre 2026 · ♡</footer>
 
@@ -152,5 +180,28 @@ function toggleCase(card){
   const label = card.querySelector('.case-open');
   if(label) label.textContent = open ? 'fermer la valise · −' : 'ouvrir la valise · +';
 }
+</script>
+
+<script>
+function halloweenEntry(e){
+  if(e) e.preventDefault();
+  const overlay=document.getElementById('bat-transition');
+  if(!overlay) return;
+  overlay.innerHTML=''; overlay.classList.add('active');
+  const count=150;
+  for(let i=0;i<count;i++){
+    const b=document.createElement('span'); b.className='flying-bat'; b.textContent='🦇';
+    b.style.setProperty('--x',(Math.random()*100)+'vw'); b.style.setProperty('--y',(Math.random()*100)+'vh');
+    b.style.setProperty('--dx',((Math.random()*150)-25)+'vw'); b.style.setProperty('--dy',((Math.random()*130)-65)+'vh');
+    b.style.setProperty('--rot',((Math.random()*80)-40)+'deg'); b.style.setProperty('--scale',(0.45+Math.random()*1.7).toFixed(2));
+    b.style.setProperty('--dur',(1.3+Math.random()*1.8).toFixed(2)+'s'); b.style.setProperty('--delay',(Math.random()*.9).toFixed(2)+'s');
+    overlay.appendChild(b);
+  }
+  setTimeout(()=>{document.getElementById('halloween')?.scrollIntoView({behavior:'instant'});},2100);
+  setTimeout(()=>{overlay.classList.remove('active');},3000);
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('a[href="#halloween"]').forEach(a=>a.addEventListener('click',halloweenEntry));
+});
 </script>
 </body></html>
