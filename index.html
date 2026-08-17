@@ -117,6 +117,11 @@ body{padding-left:88px}
 /* DAY TIMELINE */
 .slots{display:block;position:relative;margin:28px 0 8px;padding-left:34px}.slots:before{content:'';position:absolute;left:10px;top:5px;bottom:5px;width:2px;background:linear-gradient(var(--orange),var(--forest),var(--line))}.slot{position:relative;margin:0 0 13px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:15px 17px;box-shadow:0 8px 25px #35271b12}.slot:before{content:'';position:absolute;left:-31px;top:18px;width:12px;height:12px;border-radius:50%;background:var(--orange);border:3px solid var(--cream);box-shadow:0 0 0 1px var(--orange)}.slot b{font-size:12px}.slot strong{color:var(--orange)}.day .route-step{display:flex;gap:10px;align-items:center;padding:7px 0;color:var(--muted);font-size:10px}.route-step .route-line{height:18px;width:1px;background:var(--line);margin-left:6px}.timeline-tip{display:inline-flex;gap:8px;align-items:center;padding:9px 12px;background:#e5e0d4;border-radius:999px;font-size:9px;color:var(--muted);margin-bottom:10px}
 @media(max-width:800px){.activity-detail-inner{grid-template-columns:1fr}.activity-detail-visual{min-height:38vh}.activity-detail-visual:after{background:linear-gradient(0deg,#171b18 0%,#171b1800 75%)}.activity-detail-copy{padding:40px 24px 80px}.activity-gallery{grid-template-columns:1fr 1fr}.activity-gallery img:first-child{height:230px}.activity-gallery img{height:110px}}
+
+/* FINAL DAY-BY-DAY ITINERARY */
+.day .slots{display:block;padding-left:42px;margin-top:28px}.day .slot{position:relative;display:block;margin:0 0 16px;padding:17px 19px 17px 21px;background:rgba(251,245,234,.96);border-radius:18px;border:1px solid var(--line);box-shadow:0 9px 26px #35271b12;transition:transform .22s,box-shadow .22s}.day .slot:hover{transform:translateX(4px);box-shadow:0 13px 32px #35271b1c}.day .slot:before{content:'';position:absolute;left:-39px;top:20px;width:13px;height:13px;border-radius:50%;background:var(--orange);border:4px solid var(--cream);box-shadow:0 0 0 1px var(--orange);z-index:2}.day .slot:not(:last-child):after{content:'';position:absolute;left:-33px;top:38px;height:calc(100% + 16px);width:2px;background:linear-gradient(var(--orange),var(--forest));opacity:.45}.slot-time{display:block;font:600 17px 'Cormorant Garamond';color:var(--forest);margin-bottom:6px}.slot-action{font-size:12px;line-height:1.7}.slot-route{display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:9px;border-top:1px dashed var(--line);font-size:10px;color:var(--muted)}.slot-route .mode{font-size:18px}.slot-map{display:inline-flex;margin-top:9px;padding:7px 10px;border-radius:999px;background:#dbe3d7;color:var(--forest);font-size:8px;text-transform:uppercase;letter-spacing:.08em}.day .slot.activity-hit{cursor:pointer;border-left:4px solid var(--orange)}.day .slot.activity-hit .slot-action:after{content:'  ·  ouvrir la fiche ↗';font-size:9px;letter-spacing:.04em;color:var(--orange)}
+.day-intro{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 5px}.day-chip{padding:8px 11px;border-radius:999px;background:#e8e0d1;color:var(--muted);font-size:9px}.day-chip strong{color:var(--forest)}
+@media(max-width:700px){.day .slots{padding-left:32px}.day .slot{padding:14px 15px}.day .slot:before{left:-30px}.day .slot:not(:last-child):after{left:-24px}.slot-time{font-size:16px}}
 </style>
 </head>
 <body>
@@ -291,6 +296,31 @@ function closeActivity(){const o=document.getElementById('activity-detail');o.cl
 document.addEventListener('DOMContentLoaded',()=>{
   document.querySelectorAll('.activityGrid h3,.spooky-grid h3,.spooky-grid2 h3').forEach(h=>{h.classList.add('activity-clickable');h.setAttribute('tabindex','0');h.addEventListener('click',()=>openActivity(h.textContent.trim()));h.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ')openActivity(h.textContent.trim())})});
   document.getElementById('activity-detail-close')?.addEventListener('click',closeActivity);document.getElementById('activity-detail')?.addEventListener('click',e=>{if(e.target.id==='activity-detail')closeActivity()});window.addEventListener('popstate',closeActivity);
+});
+</script>
+
+<script>
+/* Every activity mentioned inside a day opens the same rich activity sheet. */
+document.addEventListener('DOMContentLoaded',()=>{
+  const known=[
+    ['Hackney City Farm','hackney city farm'],["Queen's Wood Cafe","queen's wood cafe"],['Hollyhock','hollyhock'],['Halloween at Kew','halloween at kew'],['Dark Arts','dark arts'],['London Dungeon','london dungeon'],['Tower Bridge','tower bridge'],['Big Ben','big ben'],["Buckingham Palace","buckingham palace"],['Greenwich Park','greenwich park'],['Sky Garden','sky garden'],['Camden Market','camden market'],['Portobello Road Market','portobello'],['Kyoto Garden','kyoto garden'],['Tower of London','tower of london'],['Hexmoor','hexmoor']
+  ];
+  const maps={
+    'hackney city farm':'https://www.google.com/maps/search/?api=1&query=Hackney+City+Farm+1a+Goldsmiths+Row+London+E2+8QA',"queen's wood cafe":'https://www.google.com/maps/search/?api=1&query=Queen%27s+Wood+Cafe+42+Muswell+Hill+Road+London+N10+3JP','hollyhock':'https://www.google.com/maps/search/?api=1&query=Hollyhock+Vegetarian+Fairtrade+Cafe+146+Petersham+Road+Richmond+TW10+6UX','halloween at kew':'https://www.google.com/maps/search/?api=1&query=Kew+Gardens+London','dark arts':'https://www.google.com/maps/search/?api=1&query=Warner+Bros+Studio+Tour+London','london dungeon':'https://www.google.com/maps/search/?api=1&query=London+Dungeon','tower bridge':'https://www.google.com/maps/search/?api=1&query=Tower+Bridge+London','big ben':'https://www.google.com/maps/search/?api=1&query=Big+Ben+London','buckingham palace':'https://www.google.com/maps/search/?api=1&query=Buckingham+Palace+London','greenwich park':'https://www.google.com/maps/search/?api=1&query=Greenwich+Park+London','sky garden':'https://www.google.com/maps/search/?api=1&query=Sky+Garden+London','camden market':'https://www.google.com/maps/search/?api=1&query=Camden+Market+London','portobello':'https://www.google.com/maps/search/?api=1&query=Portobello+Road+Market+London','kyoto garden':'https://www.google.com/maps/search/?api=1&query=Kyoto+Garden+Holland+Park+London','tower of london':'https://www.google.com/maps/search/?api=1&query=Tower+of+London','hexmoor':'https://www.google.com/maps/search/?api=1&query=Hexmoor+London'};
+  const modes=[['marche','🚶'],['marche','🚶'],['métro','🚇'],['metro','🚇'],['tube','🚇'],['bus','🚌'],['dlr','🚆'],['train','🚆'],['eurostar','🚆']];
+  document.querySelectorAll('.day .slot').forEach(slot=>{
+    const text=slot.textContent.trim();
+    const tm=text.match(/^(\d{2}h\d{2}(?:[–-]\d{2}h\d{2})?|\d{2}h\d{2})/); if(tm){const raw=tm[1];const rest=text.slice(tm[0].length).trim();slot.innerHTML=`<span class="slot-time">${raw}</span><div class="slot-action">${rest}</div>`}
+    const low=text.toLowerCase();
+    let found=null; for(const [label,key] of known){if(low.includes(label.toLowerCase())){found={label,key};break}}
+    if(found){slot.classList.add('activity-hit');slot.dataset.activityTitle=found.label;slot.addEventListener('click',()=>window.openActivity&&window.openActivity(found.label))}
+    let icon='🧭',label='Déplacement / étape';for(const [needle,ico] of modes){if(low.includes(needle)){icon=ico;label=needle;break}}
+    if(low.includes('→')||low.includes('station')||low.includes('direction')||low.includes('métro')||low.includes('metro')||low.includes('tube')||low.includes('marche')){
+      const r=document.createElement('div');r.className='slot-route';r.innerHTML=`<span class="mode">${icon}</span><span>${label} · trajet détaillé dans cette étape</span>`;slot.appendChild(r)
+    }
+    const hit=found&&maps[found.key];if(hit){const a=document.createElement('a');a.className='slot-map';a.href=hit;a.target='_blank';a.rel='noopener';a.textContent='📍 Ouvrir Google Maps';a.addEventListener('click',e=>e.stopPropagation());slot.appendChild(a)}
+  });
+  document.querySelectorAll('.activityGrid h3,.spooky-grid h3,.spooky-grid2 h3').forEach(h=>{if(!h.classList.contains('activity-clickable')){h.classList.add('activity-clickable');h.setAttribute('tabindex','0');h.addEventListener('click',()=>window.openActivity&&window.openActivity(h.textContent.trim()));}});
 });
 </script>
 </body></html>
