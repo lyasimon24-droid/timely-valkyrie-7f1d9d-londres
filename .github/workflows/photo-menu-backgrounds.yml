@@ -1,0 +1,48 @@
+name: Add Pinterest-style photo backgrounds
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply cozy autumn photo backgrounds to every menu
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          css=r'''
+          /* PINTEREST COZY / AUTUMN MENU BACKGROUNDS */
+          section{position:relative;isolation:isolate;background-size:cover;background-position:center;background-attachment:fixed;overflow:hidden}
+          section:before{content:'';position:absolute;inset:0;z-index:-2;background-image:inherit;background-size:cover;background-position:center;transform:scale(1.02)}
+          section:after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(31,27,21,.30),rgba(31,27,21,.54)),linear-gradient(90deg,rgba(251,245,234,.70),rgba(251,245,234,.30));pointer-events:none}
+          section>*,section main{position:relative;z-index:1}
+          #participants{background-image:url('https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=2200&q=85')}
+          #trajets{background-image:url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=2200&q=85')}
+          #activites{background-image:url('https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=2200&q=85')}
+          #jours{background-image:url('https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=2200&q=85')}
+          #budget{background-image:url('https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=2200&q=85')}
+          #valise{background-image:url('https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=2200&q=85')}
+          #halloween{background-image:url('https://images.unsplash.com/photo-1509557965878-b88c97052f0e?auto=format&fit=crop&w=2200&q=85');background-attachment:scroll}
+          #logement{background-image:url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=2200&q=85')}
+          .menu .card,.box,.day .slot{backdrop-filter:blur(2px);background:rgba(251,245,234,.88)}
+          .photo-moment,.halloween-photo{box-shadow:0 24px 60px rgba(36,29,20,.22)}
+          @media(max-width:800px){section{background-attachment:scroll}}
+          '''
+          s=s.replace('</style>',css+'</style>',1)
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Commit and remove temporary workflow
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || git commit -m "Ajoute des fonds photo cozy autumn aux menus"
+          git rm .github/workflows/photo-menu-backgrounds.yml
+          git commit -m "Supprime le workflow temporaire des fonds photo" || true
+          git push
