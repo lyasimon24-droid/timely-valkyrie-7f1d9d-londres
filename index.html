@@ -44,6 +44,20 @@ body{padding-left:88px}
 .check input{accent-color:var(--forest);width:17px;height:17px}.check:has(input:checked){text-decoration:line-through;opacity:.55}
 .packing-hint{font-size:10px;color:var(--muted);margin-top:13px}
 @media(max-width:700px){.suitcases{grid-template-columns:1fr}.case-shell{min-height:250px}.case-body{height:165px}}
+
+.halloween{background:radial-gradient(circle at 20% 10%,#4a2930 0,#1c1720 38%,#111117 100%);color:#eee5d8;position:relative;overflow:hidden}
+.halloween:before,.halloween:after{content:'✦';position:absolute;color:#b96532aa;font-size:80px;pointer-events:none}.halloween:before{top:35px;right:8%}.halloween:after{bottom:35px;left:5%;font-size:45px}
+.halloween .title,.halloween .eyebrow{color:#e7b08c}.halloween-intro{max-width:720px;line-height:1.8;color:#d8c9bd}
+.spooky-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}
+.spooky-card{background:#241d25;border:1px solid #72505a;border-radius:24px;padding:0;overflow:hidden;box-shadow:0 18px 45px #0008;transition:.3s;position:relative}
+.spooky-card:hover{transform:translateY(-7px) rotate(-.5deg);border-color:#b96532}
+.spooky-head{padding:24px 22px 18px;background:linear-gradient(135deg,#39232b,#211a22);min-height:175px;display:flex;flex-direction:column;justify-content:space-between}
+.spooky-icon{font-size:45px}.spooky-card h3{font:600 34px/1 'Cormorant Garamond';color:#f0d4c0;margin:0}.spooky-time{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#c98261}
+.spooky-body{padding:20px;color:#d7c9c0;font-size:12px;line-height:1.7}.spooky-body p{margin-top:0}.spooky-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.spooky-link{padding:9px 11px;border-radius:999px;background:#3a2b31;color:#efc1a6;font-size:9px;text-transform:uppercase}
+.spooky-check{display:flex;align-items:center;gap:9px;margin-top:15px;padding:11px;background:#2e252d;border-radius:12px;color:#e7d8cd;font-size:11px;cursor:pointer}.spooky-check input{accent-color:#b96532;width:17px;height:17px}.spooky-check:has(input:checked){opacity:.5;text-decoration:line-through}
+.haunted-note{margin-top:22px;padding:17px;border:1px solid #6f4c55;background:#241c24;border-radius:15px;color:#d7c8bd;font-size:11px;line-height:1.7}
+.bat{display:inline-block;animation:floatbat 3s ease-in-out infinite}@keyframes floatbat{50%{transform:translateY(-7px) rotate(-3deg)}}
+@media(max-width:900px){.spooky-grid{grid-template-columns:1fr 1fr}}@media(max-width:700px){.spooky-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -59,10 +73,11 @@ body{padding-left:88px}
 <a href="#logement"><span class="ico">🏠</span>Logement</a>
 <a href="#budget"><span class="ico">£</span>Budget</a>
 <a href="#valise"><span class="ico">🧳</span>Valise</a>
+<a href="#halloween"><span class="ico">🎃</span>Halloween</a>
 </div></nav>
 
 <header class="cover"><div class="brand">London ♡ '26</div><div class="hero"><div class="mini">Notre carnet de voyage · 3 voyageurs</div><h1>London,<br>here we come.</h1><p>Une semaine à Londres en automne : trajets précis, journées heure par heure, activités incontournables et petits cafés repérés à l'avance. Les activités Halloween sont volontairement placées en fin d'après-midi ou le soir. 🎃</p><div class="pill">22.10.2026 — 29.10.2026 · 🇬🇧</div></div></header>
-<section class="menu" id="menu"><div class="eyebrow">Bienvenue</div><h2 class="title">Le voyage, en six chapitres.</h2><div class="grid"><a class="card" href="#participants">01 ♡<h2>Les voyageurs</h2><span class="go">ouvrir →</span></a><a class="card" href="#trajets">02 🚆<h2>Les trajets</h2><span class="go">ouvrir →</span></a><a class="card" href="#activites">03 🍂<h2>À faire</h2><span class="go">ouvrir →</span></a><a class="card" href="#journees">04 🗓️<h2>Nos journées</h2><span class="go">ouvrir →</span></a><a class="card" href="#logement">05 🏠<h2>Le logement</h2><span class="go">ouvrir →</span></a><a class="card" href="#budget">06 £<h2>Le budget</h2><span class="go">ouvrir →</span></a><a class="card" href="#valise">07 🧳<h2>La valise</h2><span class="go">ouvrir →</span></a></div></section>
+<section class="menu" id="menu"><div class="eyebrow">Bienvenue</div><h2 class="title">Le voyage, en six chapitres.</h2><div class="grid"><a class="card" href="#participants">01 ♡<h2>Les voyageurs</h2><span class="go">ouvrir →</span></a><a class="card" href="#trajets">02 🚆<h2>Les trajets</h2><span class="go">ouvrir →</span></a><a class="card" href="#activites">03 🍂<h2>À faire</h2><span class="go">ouvrir →</span></a><a class="card" href="#journees">04 🗓️<h2>Nos journées</h2><span class="go">ouvrir →</span></a><a class="card" href="#logement">05 🏠<h2>Le logement</h2><span class="go">ouvrir →</span></a><a class="card" href="#budget">06 £<h2>Le budget</h2><span class="go">ouvrir →</span></a><a class="card" href="#valise">07 🧳<h2>La valise</h2><span class="go">ouvrir →</span></a><a class="card" href="#halloween">08 🎃<h2>Halloween</h2><span class="go">ouvrir →</span></a></div></section>
 <main>
 <section class="soft" id="participants"><div class="eyebrow">01 · les voyageurs</div><h2 class="title">Qui vient à Londres ?</h2><div class="cards3"><article class="box"><div class="avatar">☕️</div><h3>Lya</h3><div class="role">22 ans · Marseille</div><p>Marseille → Paris → Londres.</p></article><article class="box"><div class="avatar">🍁</div><h3>Cécile</h3><div class="role">46 ans · Lorient</div><p>Lorient → Paris → Londres avec Soa.</p></article><article class="box"><div class="avatar">🎀</div><h3>Soa</h3><div class="role">14 ans · Lorient</div><p>Lorient → Paris → Londres avec Cécile.</p></article></div></section>
 <section id="trajets"><div class="eyebrow">02 · les trajets</div><h2 class="title">Les grands trajets.</h2><div class="routes"><article class="box"><span class="tag">22 octobre</span><h3>Lorient → Paris</h3><div class="row"><span>Départ Lorient</span><strong>07h55</strong></div><div class="row"><span>Arrivée Montparnasse</span><strong>11h10</strong></div></article><article class="box"><span class="tag">22 octobre</span><h3>Montparnasse → Gare du Nord</h3><div class="row"><span>Transport</span><strong>Métro</strong></div><div class="row"><span>Temps prévu</span><strong>≈ 30 min</strong></div><div class="row"><span>Prix noté</span><strong>2,55 € / personne</strong></div></article><article class="box"><span class="tag">22 octobre</span><h3>Paris → Londres</h3><div class="row"><span>Eurostar</span><strong>13h11 → 14h30</strong></div><div class="row"><span>Arrivée en gare</span><strong>1h30 avant</strong></div></article><article class="box"><span class="tag">22 octobre</span><h3>Londres → logement</h3><div class="row"><span>Arrivée Londres</span><strong>14h30</strong></div><div class="row"><span>Installation visée</span><strong>≈ 15h30</strong></div><div class="row"><span>Secteur</span><strong>Aldgate East</strong></div></article><article class="box"><span class="tag">29 octobre</span><h3>Londres → Paris</h3><div class="row"><span>Eurostar</span><strong>07h30</strong></div><div class="row"><span>Prix pour 3</span><strong>250 €</strong></div></article><article class="box"><span class="tag">29 octobre</span><h3>Paris → maisons</h3><div class="row"><span>Cécile + Soa</span><strong>→ Lorient</strong></div><div class="row"><span>Lya</span><strong>→ Marseille</strong></div></article></div><div class="note">🚇 Pour les trajets londoniens, le site privilégie la marche dès que le trajet est raisonnable. Quand un transport est nécessaire, chaque journée indique la ligne et les stations principales.</div></section>
@@ -113,6 +128,19 @@ body{padding-left:88px}
     </div><div class="packing-hint">☑️ Les cases sont interactives : coche-les quand c'est dans la valise.</div></div></div></div>
   </button>
 </div>
+</section>
+
+
+<section class="halloween" id="halloween">
+<div class="eyebrow">08 · Halloween à Londres</div>
+<h2 class="title">After dark. 🎃</h2>
+<p class="halloween-intro">Une partie dédiée à nos activités Halloween, avec une ambiance un peu plus spooky 🕯️. Les activités Halloween sont placées en <b>fin d'après-midi ou le soir</b>, comme prévu. Clique sur une activité pour voir les détails, les horaires prévus et les liens utiles.</p>
+<div class="spooky-grid">
+  <article class="spooky-card"><div class="spooky-head"><span class="spooky-icon bat">🦇</span><span class="spooky-time">Dimanche 25 · 17h00</span><h3>Hexmoor</h3></div><div class="spooky-body"><p>Expérience immersive et mystérieuse à intégrer après Hackney City Farm et Brick Lane. Prévoir une arrivée avant le début du créneau.</p><div class="spooky-links"><a class="spooky-link" href="https://www.google.com/maps/search/?api=1&query=Hexmoor+London" target="_blank">📍 Google Maps ↗</a><a class="spooky-link" href="https://hexmoor.co.uk/" target="_blank">🌐 Site ↗</a></div><label class="spooky-check"><input type="checkbox"> 🎟️ Réservation vérifiée</label></div></article>
+  <article class="spooky-card"><div class="spooky-head"><span class="spooky-icon">🌙</span><span class="spooky-time">Lundi 26 · à partir de 16h</span><h3>Halloween at Kew</h3></div><div class="spooky-body"><p>La parenthèse Halloween de Kew Gardens, programmée après la visite des jardins. Une activité pensée pour basculer doucement dans l'ambiance du soir.</p><div class="spooky-links"><a class="spooky-link" href="https://www.google.com/maps/search/?api=1&query=Kew+Gardens+London" target="_blank">📍 Google Maps ↗</a><a class="spooky-link" href="https://www.kew.org/kew-gardens/whats-on/halloween-at-kew" target="_blank">🌐 Site officiel ↗</a></div><label class="spooky-check"><input type="checkbox"> 🎟️ Réservation vérifiée</label></div></article>
+  <article class="spooky-card"><div class="spooky-head"><span class="spooky-icon">🕯️</span><span class="spooky-time">Ambiance · en soirée</span><h3>London by night</h3></div><div class="spooky-body"><p>Après les activités réservées, garder une petite balade nocturne dans Londres : rues illuminées, vitrines Halloween et quartiers animés. Sans ajouter une réservation obligatoire.</p><div class="spooky-links"><a class="spooky-link" href="https://www.google.com/maps/search/?api=1&query=Leicester+Square+London" target="_blank">📍 Leicester Square</a></div><label class="spooky-check"><input type="checkbox"> 🕸️ À faire si on a encore de l'énergie</label></div></article>
+</div>
+<div class="haunted-note"><span class="bat">🦇</span> <b>Notre règle spooky :</b> pas d'activité Halloween en plein milieu de matinée. On garde les frissons pour la fin de journée et le soir. Les créneaux affichés sont ceux prévus dans notre itinéraire et doivent être confirmés lors de la réservation.</div>
 </section>
 
 </main><footer>London Autumn '26 · 22—29 octobre 2026 · ♡</footer>
