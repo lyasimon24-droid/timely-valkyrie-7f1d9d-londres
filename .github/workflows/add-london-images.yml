@@ -1,0 +1,72 @@
+name: Add London photo gallery
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  update-site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add sourced Internet images to the sections
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html'); s=p.read_text(encoding='utf-8')
+          css=r'''
+          /* LONDON PHOTO MOMENTS */
+          .photo-moment{position:relative;min-height:245px;margin:24px 0 30px;border-radius:28px;overflow:hidden;background:#263f33;box-shadow:var(--shadow);isolation:isolate}
+          .photo-moment img{width:100%;height:100%;min-height:245px;display:block;object-fit:cover;transition:transform .8s ease,filter .5s ease}.photo-moment:hover img{transform:scale(1.045);filter:saturate(1.08)}
+          .photo-moment:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#111a16d9 0%,#111a1640 55%,#111a1600 100%);z-index:1;pointer-events:none}
+          .photo-copy{position:absolute;z-index:2;left:28px;bottom:25px;max-width:530px;color:#fff}.photo-copy .mini{opacity:.85}.photo-copy h3{font:600 clamp(30px,5vw,54px)/.9 'Cormorant Garamond';margin:7px 0}.photo-copy p{font-size:11px;line-height:1.6;max-width:460px;margin:0;color:#f1e9df}
+          .photo-credit{display:inline-block;margin-top:9px;font-size:8px;letter-spacing:.06em;opacity:.7}
+          .photo-pair{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0 30px}.photo-pair .photo-moment{margin:0;min-height:280px}.photo-pair .photo-moment img{min-height:280px}
+          .halloween-photo{margin:0 0 26px;border-radius:24px;overflow:hidden;border:1px solid #72505a;box-shadow:0 20px 50px #0008}.halloween-photo img{width:100%;height:300px;object-fit:cover;display:block}.halloween-photo figcaption{background:#17141d;padding:10px 14px;color:#cfc0b7;font-size:8px;letter-spacing:.04em}
+          @media(max-width:700px){.photo-pair{grid-template-columns:1fr}.photo-moment,.photo-moment img{min-height:220px}.photo-copy{left:20px;right:20px;bottom:19px}.photo-copy p{font-size:10px}.halloween-photo img{height:230px}}
+          '''
+          s=s.replace('</style>',css+'</style>',1)
+
+          imgs={
+          'participants':("https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1800&q=85","Bienvenue à Londres","La photo parfaite pour ouvrir notre carnet : Londres, ses rues et cette petite sensation de départ en voyage.","Photo via Unsplash · licence Unsplash"),
+          'trajets':("https://d1k1989q2ysl57.cloudfront.net/media/roughmaps/2025/11/10/1762814186dea828e411a18f77c40123473f4c84ec00febecd.jpg","All aboard 🚇","Parce qu'à Londres, une partie du voyage se passe aussi sous terre.","Image repérée via RoughMaps"),
+          'activites':("https://offloadmedia.feverup.com/secretldn.com/wp-content/uploads/2024/06/14175855/shutterstock_759964561.jpg","London calling 🍂","Une ambiance londonienne d'automne pour donner le ton à notre liste d'activités.","Image repérée via Secret London"),
+          'journees':("https://www.pexels.com/photo/quiet-london-street-with-autumn-leaves-28809207/","Une journée à Londres","Des rues calmes, des feuilles d'automne et l'envie de partir marcher sans regarder l'heure.","Photo : Matheus Bertelli · Pexels · libre d'utilisation"),
+          'logement':("https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1600&q=85","Home sweet London 🏠","Notre petit cocon entre deux journées de découvertes.","Photo via Unsplash · licence Unsplash"),
+          'budget':("https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1600&q=85","London on a budget £","Parce qu'un joli voyage, ça se prépare aussi avec quelques calculs.","Photo via Unsplash · licence Unsplash"),
+          'valise':("https://images.unsplash.com/photo-1565026057447-bc90a3dceb87?auto=format&fit=crop&w=1600&q=85","Ready to go 🧳","Le moment où l'excitation monte : on ferme les valises et direction Londres.","Photo via Unsplash · licence Unsplash")
+          }
+
+          def block(k):
+              u,t,d,c=imgs[k]
+              return f'<div class="photo-moment"><img src="{u}" alt="{t}" loading="lazy"><div class="photo-copy"><div class="mini">London · October 2026</div><h3>{t}</h3><p>{d}</p><span class="photo-credit">{c}</span></div></div>'
+
+          for k in ['participants','trajets','activites','journees','logement','budget','valise']:
+              marker=f'id="{k}"'
+              if marker in s and f'data-photo="{k}"' not in s:
+                  pos=s.find(marker)
+                  end=s.find('>',pos)+1
+                  s=s[:end]+f'<div data-photo="{k}">'+block(k)+'</div>'+s[end:]
+
+          # Add a real Halloween photo to the cinematic section, without changing its spooky atmosphere.
+          halloween_marker='id="halloween"'
+          if halloween_marker in s and 'data-photo="halloween"' not in s:
+              pos=s.find(halloween_marker); end=s.find('>',pos)+1
+              photo='''<figure class="halloween-photo" data-photo="halloween"><img src="https://media.passportnews.co.il/media/Storage/60103.jpg" alt="Halloween trail lumineux à Kew Gardens" loading="lazy"><figcaption>Photo d'ambiance d'un Halloween Trail à Kew Gardens · image repérée via Passport News</figcaption></figure>'''
+              s=s[:end]+photo+s[end:]
+
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Commit and remove workflow
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || git commit -m "Ajoute des photos de Londres dans les menus"
+          git rm .github/workflows/add-london-images.yml
+          git commit -m "Supprime le workflow photos temporaire" || true
+          git push
