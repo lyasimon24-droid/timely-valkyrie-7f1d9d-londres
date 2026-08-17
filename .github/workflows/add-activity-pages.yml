@@ -1,0 +1,63 @@
+name: Add activity detail pages and timeline styling
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  update-site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add interactive activity pages and day timeline
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html'); s=p.read_text(encoding='utf-8')
+          css=r'''
+          /* ACTIVITY DETAIL PAGES */
+          .activity-clickable{cursor:pointer;position:relative;transition:transform .25s ease,color .25s ease}.activity-clickable:hover{transform:translateX(5px);color:var(--orange)}.activity-clickable:after{content:'↗';font-family:'DM Sans';font-size:11px;margin-left:8px;opacity:.45}.activity-detail{position:fixed;inset:0;z-index:10060;background:#171b18;overflow:auto;opacity:0;pointer-events:none;transition:opacity .45s ease}.activity-detail.open{opacity:1;pointer-events:auto}.activity-detail-inner{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr}.activity-detail-visual{min-height:100vh;background:#263f33 center/cover no-repeat;position:relative}.activity-detail-visual:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#11171300 40%,#171b18 100%)}.activity-detail-copy{padding:clamp(70px,9vw,130px) clamp(28px,6vw,90px);color:#f1e6d7;display:flex;flex-direction:column;justify-content:center}.activity-detail-copy .mini{color:#d6a17d}.activity-detail-copy h2{font:600 clamp(48px,6vw,86px)/.9 'Cormorant Garamond';margin:14px 0 22px;color:#f2dfca}.activity-detail-copy p{font-size:13px;line-height:1.9;color:#d9cec2;max-width:650px}.activity-detail-close{position:fixed;right:25px;top:22px;z-index:2;border:1px solid #ffffff33;background:#ffffff12;color:#fff;border-radius:999px;padding:11px 15px;cursor:pointer;font-size:10px;text-transform:uppercase;letter-spacing:.12em}.activity-gallery{display:grid;grid-template-columns:1.35fr .65fr;gap:10px;margin-top:24px}.activity-gallery img{width:100%;height:170px;object-fit:cover;border-radius:16px}.activity-gallery img:first-child{height:350px;grid-row:span 2}.activity-links{display:flex;gap:9px;flex-wrap:wrap;margin-top:22px}.activity-link{padding:11px 14px;border-radius:999px;background:#d4e0d1;color:#1e3a2c;font-size:9px;text-transform:uppercase}.activity-link.dark{background:#ffffff12;color:#f1dfcc;border:1px solid #ffffff20}
+          /* DAY TIMELINE */
+          .slots{display:block;position:relative;margin:28px 0 8px;padding-left:34px}.slots:before{content:'';position:absolute;left:10px;top:5px;bottom:5px;width:2px;background:linear-gradient(var(--orange),var(--forest),var(--line))}.slot{position:relative;margin:0 0 13px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:15px 17px;box-shadow:0 8px 25px #35271b12}.slot:before{content:'';position:absolute;left:-31px;top:18px;width:12px;height:12px;border-radius:50%;background:var(--orange);border:3px solid var(--cream);box-shadow:0 0 0 1px var(--orange)}.slot b{font-size:12px}.slot strong{color:var(--orange)}.day .route-step{display:flex;gap:10px;align-items:center;padding:7px 0;color:var(--muted);font-size:10px}.route-step .route-line{height:18px;width:1px;background:var(--line);margin-left:6px}.timeline-tip{display:inline-flex;gap:8px;align-items:center;padding:9px 12px;background:#e5e0d4;border-radius:999px;font-size:9px;color:var(--muted);margin-bottom:10px}
+          @media(max-width:800px){.activity-detail-inner{grid-template-columns:1fr}.activity-detail-visual{min-height:38vh}.activity-detail-visual:after{background:linear-gradient(0deg,#171b18 0%,#171b1800 75%)}.activity-detail-copy{padding:40px 24px 80px}.activity-gallery{grid-template-columns:1fr 1fr}.activity-gallery img:first-child{height:230px}.activity-gallery img{height:110px}}
+          '''
+          s=s.replace('</style>',css+'</style>',1)
+          if 'id="activity-detail"' not in s:
+              overlay=r'''<div id="activity-detail" class="activity-detail" aria-hidden="true"><button class="activity-detail-close" id="activity-detail-close">← Retour au voyage</button><div class="activity-detail-inner"><div class="activity-detail-visual" id="activity-detail-visual"></div><div class="activity-detail-copy"><div class="mini" id="activity-detail-meta">London · October 2026</div><h2 id="activity-detail-title">Activité</h2><p id="activity-detail-description"></p><div class="activity-gallery" id="activity-detail-gallery"></div><div class="activity-links" id="activity-detail-links"></div></div></div></div>'''
+              s=s.replace('<div id="top"></div>','<div id="top"></div>'+overlay,1)
+
+          js=r'''
+          <script>
+          const ACTIVITY_DATA={
+            'hackney city farm':{meta:'East London · incontournable',title:'Hackney City Farm 🐑',desc:"Une vraie petite ferme au cœur de Londres, avec animaux de ferme, jardins et une ambiance très différente du Londres classique. L'entrée du farmyard est gratuite et le site est ouvert du mardi au dimanche de 10h à 16h30. C'est exactement le genre de parenthèse douce et un peu hors du temps qui colle à votre voyage.",img:['https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1566251037378-5e04e3bec343?auto=format&fit=crop&w=900&q=85','https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=900&q=85'],site:'https://hackneycityfarm.co.uk/visit/',map:'https://www.google.com/maps/search/?api=1&query=Hackney+City+Farm+London'},
+            "queen's wood cafe":{meta:'Highgate · coffee & woodland',title:"Queen's Wood Cafe ☕🌿",desc:"Un café communautaire niché dans Queen's Wood, avec jardin en permaculture, plats maison et pâtisseries préparées sur place. Le lieu se présente comme un endroit de tranquillité dans les bois, parfait pour une pause coffee shop très autumn vibes.",img:['https://images.unsplash.com/photo-1445116572660-236099ec97a0?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=900&q=85','https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=85'],site:'https://www.queenswoodcafe.org/',map:'https://www.google.com/maps/search/?api=1&query=Queen%27s+Wood+Cafe+London'},
+            'hollyhock':{meta:'Richmond · fairytale café',title:'Hollyhock Cafe 🌿☕',desc:"Un café végétarien et Fairtrade installé dans les Terrace Gardens de Richmond, avec une terrasse au-dessus des arbres et des vues vers la Tamise. Une étape parfaite pour une journée Richmond très cosy, surtout avec une boisson chaude et quelque chose de sucré.",img:['https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=85','https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=85'],site:'https://www.facebook.com/pages/Hollyhock-Cafe/119010574838981',map:'https://www.google.com/maps/search/?api=1&query=Hollyhock+Vegetarian+Fairtrade+Cafe+Richmond'},
+            'halloween at kew':{meta:'Halloween · 25–29 octobre 2026',title:'Halloween at Kew 🎃🌕',desc:"Un trail Halloween illuminé d'environ 1,5 km dans Kew Gardens. En 2026, l'expérience propose notamment Dracula's Lair, le Cursed Tomb, le Medieval Dungeon, le Forest Ritual et le Monster Disco. Les sessions deviennent plus spooky au fil de la soirée : Twilight de 18h à 19h30 et Moonlight après 19h30.",img:['https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1509557965875-b88c97052f0e?auto=format&fit=crop&w=900&q=85','https://images.unsplash.com/photo-1508361001413-7a9c0dbb0e3d?auto=format&fit=crop&w=900&q=85'],site:'https://www.kew.org/kew-gardens/whats-on/halloween-at-kew',map:'https://www.google.com/maps/search/?api=1&query=Kew+Gardens+London'},
+            'dark arts':{meta:'Warner Bros. Studio Tour · 16 septembre–8 novembre 2026',title:'Dark Arts 🪄🖤',desc:"La version Halloween du Warner Bros. Studio Tour London : plus de 100 citrouilles flottent dans la Grande Salle, des Mangemorts défilent et des éléments plus sombres apparaissent dans les décors. Une activité à traiter comme une vraie excursion à part entière.",img:['https://images.unsplash.com/photo-1608889175112-7a8c2c0e5d8a?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=900&q=85','https://images.unsplash.com/photo-1520175480921-4edfa2983e0f?auto=format&fit=crop&w=900&q=85'],site:'https://www.wbstudiotour.co.uk/fr/whats-on/dark-arts/',map:'https://www.google.com/maps/search/?api=1&query=Warner+Bros+Studio+Tour+London'}
+          };
+          const DEFAULT_DATA={meta:'London · October 2026',title:'Une étape de notre voyage ✨',desc:"Cette activité fait partie de votre itinéraire londonien. La fiche est pensée pour rassembler les informations utiles, les photos d'ambiance et les accès directs. Les horaires et réservations seront à confirmer avant le départ.",img:['https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=900&q=85','https://images.unsplash.com/photo-1445116572660-236099ec97a0?auto=format&fit=crop&w=900&q=85'],map:'https://www.google.com/maps/search/?api=1&query=London'};
+          function dataFor(title){const t=title.toLowerCase().replace(/[’]/g,"'");for(const k in ACTIVITY_DATA) if(t.includes(k)) return ACTIVITY_DATA[k];return {...DEFAULT_DATA,title:title};}
+          function openActivity(title){const d=dataFor(title),o=document.getElementById('activity-detail');document.getElementById('activity-detail-title').textContent=d.title;document.getElementById('activity-detail-meta').textContent=d.meta;document.getElementById('activity-detail-description').textContent=d.desc;const v=document.getElementById('activity-detail-visual');v.style.backgroundImage=`url("${d.img[0]}")`;const g=document.getElementById('activity-detail-gallery');g.innerHTML=d.img.slice(1).map(u=>`<img src="${u}" loading="lazy" alt="">`).join('');const links=document.getElementById('activity-detail-links');links.innerHTML=(d.site?`<a class="activity-link" href="${d.site}" target="_blank" rel="noopener">🌐 Site officiel</a>`:'')+`<a class="activity-link" href="${d.map}" target="_blank" rel="noopener">📍 Google Maps</a>`+(title.toLowerCase().includes('queen')?'<a class="activity-link dark" href="https://www.instagram.com/queenswoodcafe/" target="_blank" rel="noopener">♡ Instagram</a>':'');o.classList.add('open');o.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';history.pushState({activity:title},'',`#activity-${encodeURIComponent(title.toLowerCase().replace(/[^a-z0-9]+/g,'-'))}`)}
+          function closeActivity(){const o=document.getElementById('activity-detail');o.classList.remove('open');o.setAttribute('aria-hidden','true');document.body.style.overflow='';if(location.hash.startsWith('#activity-')) history.replaceState({},'',location.pathname+location.search)}
+          document.addEventListener('DOMContentLoaded',()=>{
+            document.querySelectorAll('.activityGrid h3,.spooky-grid h3,.spooky-grid2 h3').forEach(h=>{h.classList.add('activity-clickable');h.setAttribute('tabindex','0');h.addEventListener('click',()=>openActivity(h.textContent.trim()));h.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ')openActivity(h.textContent.trim())})});
+            document.getElementById('activity-detail-close')?.addEventListener('click',closeActivity);document.getElementById('activity-detail')?.addEventListener('click',e=>{if(e.target.id==='activity-detail')closeActivity()});window.addEventListener('popstate',closeActivity);
+          });
+          </script>
+          '''
+          s=s.replace('</body>',js+'</body>',1)
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Commit and remove workflow
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || git commit -m "Ajoute des fiches activités immersives et timelines"
+          git rm .github/workflows/add-activity-pages.yml
+          git commit -m "Supprime le workflow activités temporaire" || true
+          git push
