@@ -18,8 +18,6 @@ jobs:
         shell: python
         run: |
           from pathlib import Path
-          import re
-
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
 
@@ -40,9 +38,12 @@ jobs:
           if 'href="anglais.html"' not in s:
               s = s.replace('</div></nav>', side_links + '</div></nav>', 1)
 
-          if 'href="automne-londres-harry-potter.html"' not in s:
+          if '<a class="card" href="anglais.html">' not in s:
               marker = '</div></section>\n<main>'
-              s = s.replace(marker, menu_cards + '</div></section>\n<main>', 1)
+              if marker in s:
+                  s = s.replace(marker, menu_cards + '</div></section>\n<main>', 1)
+              else:
+                  raise SystemExit('Menu card marker not found; no file changed')
 
           p.write_text(s, encoding='utf-8')
 
