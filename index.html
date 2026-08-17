@@ -126,6 +126,23 @@ body{padding-left:88px}
 /* FINAL DAY-BY-DAY ITINERARY */
 .day .slots{display:block;padding-left:42px;margin-top:28px}.day .slot{position:relative;display:block;margin:0 0 16px;padding:17px 19px 17px 21px;background:rgba(251,245,234,.96);border-radius:18px;border:1px solid var(--line);box-shadow:0 9px 26px #35271b12;transition:transform .22s,box-shadow .22s}.day .slot:hover{transform:translateX(4px);box-shadow:0 13px 32px #35271b1c}.day .slot:before{content:'';position:absolute;left:-39px;top:20px;width:13px;height:13px;border-radius:50%;background:var(--orange);border:4px solid var(--cream);box-shadow:0 0 0 1px var(--orange);z-index:2}.day .slot:not(:last-child):after{content:'';position:absolute;left:-33px;top:38px;height:calc(100% + 16px);width:2px;background:linear-gradient(var(--orange),var(--forest));opacity:.45}.slot-time{display:block;font:600 17px 'Cormorant Garamond';color:var(--forest);margin-bottom:6px}.slot-action{font-size:12px;line-height:1.7}.slot-route{display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:9px;border-top:1px dashed var(--line);font-size:10px;color:var(--muted)}.slot-route .mode{font-size:18px}.slot-map{display:inline-flex;margin-top:9px;padding:7px 10px;border-radius:999px;background:#dbe3d7;color:var(--forest);font-size:8px;text-transform:uppercase;letter-spacing:.08em}.day .slot.activity-hit{cursor:pointer;border-left:4px solid var(--orange)}.day .slot.activity-hit .slot-action:after{content:'  ·  ouvrir la fiche ↗';font-size:9px;letter-spacing:.04em;color:var(--orange)}
 @media(max-width:700px){.day .slots{padding-left:32px}.day .slot{padding:14px 15px}.day .slot:before{left:-30px}.day .slot:not(:last-child):after{left:-24px}.slot-time{font-size:16px}}
+
+/* PINTEREST COZY / AUTUMN MENU BACKGROUNDS */
+section{position:relative;isolation:isolate;background-size:cover;background-position:center;background-attachment:fixed;overflow:hidden}
+section:before{content:'';position:absolute;inset:0;z-index:-2;background-image:inherit;background-size:cover;background-position:center;transform:scale(1.02)}
+section:after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(31,27,21,.30),rgba(31,27,21,.54)),linear-gradient(90deg,rgba(251,245,234,.70),rgba(251,245,234,.30));pointer-events:none}
+section>*,section main{position:relative;z-index:1}
+#participants{background-image:url('https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=2200&q=85')}
+#trajets{background-image:url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=2200&q=85')}
+#activites{background-image:url('https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=2200&q=85')}
+#jours{background-image:url('https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=2200&q=85')}
+#budget{background-image:url('https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=2200&q=85')}
+#valise{background-image:url('https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=2200&q=85')}
+#halloween{background-image:url('https://images.unsplash.com/photo-1509557965878-b88c97052f0e?auto=format&fit=crop&w=2200&q=85');background-attachment:scroll}
+#logement{background-image:url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=2200&q=85')}
+.menu .card,.box,.day .slot{backdrop-filter:blur(2px);background:rgba(251,245,234,.88)}
+.photo-moment,.halloween-photo{box-shadow:0 24px 60px rgba(36,29,20,.22)}
+@media(max-width:800px){section{background-attachment:scroll}}
 </style>
 </head>
 <body>
