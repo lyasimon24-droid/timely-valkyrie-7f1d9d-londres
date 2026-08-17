@@ -19,6 +19,31 @@ body{padding-left:88px}
 .sideNav .ico{font-size:20px}
 .sideHome{margin-top:auto}
 @media(max-width:1050px){body{padding-left:0}.side{width:100%;height:64px;top:auto;bottom:0;left:0;right:0;flex-direction:row;padding:4px 7px;box-shadow:0 -8px 30px #35271b20}.sideLogo{display:none}.sideNav{flex-direction:row;justify-content:space-around;gap:2px}.sideNav a{min-height:54px;flex:1}.sideNav .ico{font-size:17px}.sideHome{margin-top:0}}
+
+.suitcases{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:28px}
+.suitcase-card{position:relative;border:0;border-radius:28px;padding:0;background:transparent;cursor:pointer;perspective:900px;text-align:left;color:var(--ink)}
+.case-shell{min-height:285px;border-radius:24px;padding:22px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--shadow);transition:transform .35s ease,box-shadow .35s ease;position:relative;overflow:hidden;border:2px solid #ffffff80}
+.suitcase-card:hover .case-shell{transform:translateY(-6px) rotate(-1deg);box-shadow:0 25px 55px #35271b30}
+.case-shell.pink{background:linear-gradient(145deg,#f3b7c9,#df8fae)}
+.case-shell.green{background:linear-gradient(145deg,#b8c9b1,#78967b)}
+.case-shell.terra{background:linear-gradient(145deg,#d99672,#b96532)}
+.case-handle{width:58px;height:25px;border:6px solid currentColor;border-bottom:0;border-radius:12px 12px 0 0;margin:0 auto -2px;opacity:.7}
+.case-body{border:2px solid #ffffff70;border-radius:18px;height:190px;padding:18px;display:flex;flex-direction:column;justify-content:center;align-items:center;background:#ffffff18;position:relative}
+.case-body:before{content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;background:#ffffff45}
+.case-lock{position:absolute;bottom:13px;left:50%;transform:translateX(-50%);width:15px;height:18px;border-radius:3px;background:#fff8;border:1px solid #fff}
+.case-name{font:700 43px/1 'Cormorant Garamond';text-align:center;position:relative;z-index:1}
+.case-icon{font-size:42px;position:relative;z-index:1;margin-bottom:8px}
+.case-open{font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.8;text-align:center;margin-top:13px}
+.packing{margin-top:18px;display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s ease,opacity .3s ease;opacity:0}
+.packing-inner{overflow:hidden}
+.suitcase-card.open .packing{grid-template-rows:1fr;opacity:1}
+.packing-box{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
+.packing-box h3{font:600 31px 'Cormorant Garamond';color:var(--forest);margin:0 0 15px}
+.checklist{display:grid;gap:9px}
+.check{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:12px;background:#e8e2d6;font-size:12px;cursor:pointer}
+.check input{accent-color:var(--forest);width:17px;height:17px}.check:has(input:checked){text-decoration:line-through;opacity:.55}
+.packing-hint{font-size:10px;color:var(--muted);margin-top:13px}
+@media(max-width:700px){.suitcases{grid-template-columns:1fr}.case-shell{min-height:250px}.case-body{height:165px}}
 </style>
 </head>
 <body>
@@ -33,10 +58,11 @@ body{padding-left:88px}
 <a href="#journees"><span class="ico">🗓️</span>Journées</a>
 <a href="#logement"><span class="ico">🏠</span>Logement</a>
 <a href="#budget"><span class="ico">£</span>Budget</a>
+<a href="#valise"><span class="ico">🧳</span>Valise</a>
 </div></nav>
 
 <header class="cover"><div class="brand">London ♡ '26</div><div class="hero"><div class="mini">Notre carnet de voyage · 3 voyageurs</div><h1>London,<br>here we come.</h1><p>Une semaine à Londres en automne : trajets précis, journées heure par heure, activités incontournables et petits cafés repérés à l'avance. Les activités Halloween sont volontairement placées en fin d'après-midi ou le soir. 🎃</p><div class="pill">22.10.2026 — 29.10.2026 · 🇬🇧</div></div></header>
-<section class="menu" id="menu"><div class="eyebrow">Bienvenue</div><h2 class="title">Le voyage, en six chapitres.</h2><div class="grid"><a class="card" href="#participants">01 ♡<h2>Les voyageurs</h2><span class="go">ouvrir →</span></a><a class="card" href="#trajets">02 🚆<h2>Les trajets</h2><span class="go">ouvrir →</span></a><a class="card" href="#activites">03 🍂<h2>À faire</h2><span class="go">ouvrir →</span></a><a class="card" href="#journees">04 🗓️<h2>Nos journées</h2><span class="go">ouvrir →</span></a><a class="card" href="#logement">05 🏠<h2>Le logement</h2><span class="go">ouvrir →</span></a><a class="card" href="#budget">06 £<h2>Le budget</h2><span class="go">ouvrir →</span></a></div></section>
+<section class="menu" id="menu"><div class="eyebrow">Bienvenue</div><h2 class="title">Le voyage, en six chapitres.</h2><div class="grid"><a class="card" href="#participants">01 ♡<h2>Les voyageurs</h2><span class="go">ouvrir →</span></a><a class="card" href="#trajets">02 🚆<h2>Les trajets</h2><span class="go">ouvrir →</span></a><a class="card" href="#activites">03 🍂<h2>À faire</h2><span class="go">ouvrir →</span></a><a class="card" href="#journees">04 🗓️<h2>Nos journées</h2><span class="go">ouvrir →</span></a><a class="card" href="#logement">05 🏠<h2>Le logement</h2><span class="go">ouvrir →</span></a><a class="card" href="#budget">06 £<h2>Le budget</h2><span class="go">ouvrir →</span></a><a class="card" href="#valise">07 🧳<h2>La valise</h2><span class="go">ouvrir →</span></a></div></section>
 <main>
 <section class="soft" id="participants"><div class="eyebrow">01 · les voyageurs</div><h2 class="title">Qui vient à Londres ?</h2><div class="cards3"><article class="box"><div class="avatar">☕️</div><h3>Lya</h3><div class="role">22 ans · Marseille</div><p>Marseille → Paris → Londres.</p></article><article class="box"><div class="avatar">🍁</div><h3>Cécile</h3><div class="role">46 ans · Lorient</div><p>Lorient → Paris → Londres avec Soa.</p></article><article class="box"><div class="avatar">🎀</div><h3>Soa</h3><div class="role">14 ans · Lorient</div><p>Lorient → Paris → Londres avec Cécile.</p></article></div></section>
 <section id="trajets"><div class="eyebrow">02 · les trajets</div><h2 class="title">Les grands trajets.</h2><div class="routes"><article class="box"><span class="tag">22 octobre</span><h3>Lorient → Paris</h3><div class="row"><span>Départ Lorient</span><strong>07h55</strong></div><div class="row"><span>Arrivée Montparnasse</span><strong>11h10</strong></div></article><article class="box"><span class="tag">22 octobre</span><h3>Montparnasse → Gare du Nord</h3><div class="row"><span>Transport</span><strong>Métro</strong></div><div class="row"><span>Temps prévu</span><strong>≈ 30 min</strong></div><div class="row"><span>Prix noté</span><strong>2,55 € / personne</strong></div></article><article class="box"><span class="tag">22 octobre</span><h3>Paris → Londres</h3><div class="row"><span>Eurostar</span><strong>13h11 → 14h30</strong></div><div class="row"><span>Arrivée en gare</span><strong>1h30 avant</strong></div></article><article class="box"><span class="tag">22 octobre</span><h3>Londres → logement</h3><div class="row"><span>Arrivée Londres</span><strong>14h30</strong></div><div class="row"><span>Installation visée</span><strong>≈ 15h30</strong></div><div class="row"><span>Secteur</span><strong>Aldgate East</strong></div></article><article class="box"><span class="tag">29 octobre</span><h3>Londres → Paris</h3><div class="row"><span>Eurostar</span><strong>07h30</strong></div><div class="row"><span>Prix pour 3</span><strong>250 €</strong></div></article><article class="box"><span class="tag">29 octobre</span><h3>Paris → maisons</h3><div class="row"><span>Cécile + Soa</span><strong>→ Lorient</strong></div><div class="row"><span>Lya</span><strong>→ Marseille</strong></div></article></div><div class="note">🚇 Pour les trajets londoniens, le site privilégie la marche dès que le trajet est raisonnable. Quand un transport est nécessaire, chaque journée indique la ligne et les stations principales.</div></section>
@@ -62,5 +88,41 @@ body{padding-left:88px}
 </section>
 <section class="stay" id="logement"><div class="eyebrow">05 · le logement</div><h2 class="title">Notre petit chez-nous. 🏠</h2><div class="stayGrid"><div class="stayPhoto"><div><span class="tag">7 nuits · 22 → 29 octobre</span><h3>Aldgate East</h3></div></div><div class="box"><div class="row"><span>Séjour</span><strong>7 nuits</strong></div><div class="row"><span>Prix</span><strong>809 €</strong></div><div class="row"><span>Voyageurs</span><strong>3</strong></div><div class="links"><a class="link" href="https://www.airbnb.fr/rooms/1750645642637002244?unique_share_id=fda7523b-15fc-4078-bc07-a24ef7c3d0de&viralityEntryPoint=1&s=76" target="_blank">Airbnb ↗</a><a class="link" href="https://maps.app.goo.gl/fgkETiSKpjBhs2gG6?g_st=ic" target="_blank">Google Maps ↗</a></div></div></div></section>
 <section class="budget" id="budget"><div class="eyebrow">06 · le budget</div><h2 class="title">Le budget. £</h2><div class="box"><div class="row"><span>🏠 Logement</span><strong>809 €</strong></div><div class="row"><span>🚆 Eurostar aller · 3</span><strong>200 €</strong></div><div class="row"><span>🚆 Eurostar retour · 3</span><strong>250 €</strong></div><div class="row"><span>🚇 Paris Montparnasse → Gare du Nord · 2</span><strong>5,10 €</strong></div><div class="row"><span>🎟️ Activités avec réservation</span><strong>à ajouter</strong></div><div class="row"><span>☕ Cafés / restaurants</span><strong>à prévoir</strong></div><div class="row"><span>🛍️ Shopping</span><strong>à prévoir</strong></div><div class="total"><span>Total déjà connu</span><strong>1 264,10 €</strong></div><p>Les prix des activités, repas, shopping et transports londoniens variables restent à ajouter. Hackney City Farm est gratuite. Queen's Wood Cafe et Hollyhock sont intégrés comme pauses repas/café.</p></div></section>
+
+<section class="soft" id="valise">
+<div class="eyebrow">07 · la valise</div>
+<h2 class="title">On n'oublie rien. 🧳</h2>
+<p>Choisis ta valise pour ouvrir ta checklist personnelle. Tu peux cocher les affaires au fur et à mesure des préparatifs ✨</p>
+<div class="suitcases">
+  <button class="suitcase-card" type="button" aria-expanded="false" aria-controls="packing-lya" onclick="toggleCase(this)">
+    <div class="case-shell pink"><div class="case-handle"></div><div class="case-body"><div class="case-icon">🌸</div><div class="case-name">Lya</div><div class="case-lock"></div></div><div class="case-open">ouvrir la valise · +</div></div>
+    <div class="packing" id="packing-lya"><div class="packing-inner"><div class="packing-box"><h3>La valise de Lya 🌸</h3><div class="checklist">
+      <label class="check"><input type="checkbox"> Passeport / pièce d'identité</label><label class="check"><input type="checkbox"> Billets Eurostar</label><label class="check"><input type="checkbox"> Carte bancaire + un peu de livres sterling</label><label class="check"><input type="checkbox"> Téléphone + chargeur</label><label class="check"><input type="checkbox"> Batterie externe</label><label class="check"><input type="checkbox"> Écouteurs</label><label class="check"><input type="checkbox"> Vêtements chauds pour Londres</label><label class="check"><input type="checkbox"> Imperméable / parapluie</label><label class="check"><input type="checkbox"> Chaussures confortables</label><label class="check"><input type="checkbox"> Trousse de toilette</label><label class="check"><input type="checkbox"> Médicaments personnels</label><label class="check"><input type="checkbox"> Sac à dos pour les journées</label><label class="check"><input type="checkbox"> Gourde</label><label class="check"><input type="checkbox"> Lunettes de soleil</label>
+    </div><div class="packing-hint">☑️ Les cases sont interactives : coche-les quand c'est dans la valise.</div></div></div></div>
+  </button>
+  <button class="suitcase-card" type="button" aria-expanded="false" aria-controls="packing-cecile" onclick="toggleCase(this)">
+    <div class="case-shell green"><div class="case-handle"></div><div class="case-body"><div class="case-icon">🍃</div><div class="case-name">Cécile</div><div class="case-lock"></div></div><div class="case-open">ouvrir la valise · +</div></div>
+    <div class="packing" id="packing-cecile"><div class="packing-inner"><div class="packing-box"><h3>La valise de Cécile 🍃</h3><div class="checklist">
+      <label class="check"><input type="checkbox"> Passeport / pièce d'identité</label><label class="check"><input type="checkbox"> Billets Eurostar</label><label class="check"><input type="checkbox"> Carte bancaire + un peu de livres sterling</label><label class="check"><input type="checkbox"> Téléphone + chargeur</label><label class="check"><input type="checkbox"> Batterie externe</label><label class="check"><input type="checkbox"> Écouteurs</label><label class="check"><input type="checkbox"> Vêtements chauds pour Londres</label><label class="check"><input type="checkbox"> Imperméable / parapluie</label><label class="check"><input type="checkbox"> Chaussures confortables</label><label class="check"><input type="checkbox"> Trousse de toilette</label><label class="check"><input type="checkbox"> Médicaments personnels</label><label class="check"><input type="checkbox"> Sac à dos pour les journées</label><label class="check"><input type="checkbox"> Gourde</label><label class="check"><input type="checkbox"> Lunettes de soleil</label>
+    </div><div class="packing-hint">☑️ Les cases sont interactives : coche-les quand c'est dans la valise.</div></div></div></div>
+  </button>
+  <button class="suitcase-card" type="button" aria-expanded="false" aria-controls="packing-soa" onclick="toggleCase(this)">
+    <div class="case-shell terra"><div class="case-handle"></div><div class="case-body"><div class="case-icon">🍂</div><div class="case-name">Soa</div><div class="case-lock"></div></div><div class="case-open">ouvrir la valise · +</div></div>
+    <div class="packing" id="packing-soa"><div class="packing-inner"><div class="packing-box"><h3>La valise de Soa 🍂</h3><div class="checklist">
+      <label class="check"><input type="checkbox"> Passeport / pièce d'identité</label><label class="check"><input type="checkbox"> Billets Eurostar</label><label class="check"><input type="checkbox"> Carte bancaire + argent de poche</label><label class="check"><input type="checkbox"> Téléphone + chargeur</label><label class="check"><input type="checkbox"> Batterie externe</label><label class="check"><input type="checkbox"> Écouteurs</label><label class="check"><input type="checkbox"> Vêtements chauds pour Londres</label><label class="check"><input type="checkbox"> Imperméable / parapluie</label><label class="check"><input type="checkbox"> Chaussures confortables</label><label class="check"><input type="checkbox"> Trousse de toilette</label><label class="check"><input type="checkbox"> Médicaments personnels</label><label class="check"><input type="checkbox"> Sac à dos pour les journées</label><label class="check"><input type="checkbox"> Gourde</label><label class="check"><input type="checkbox"> Livre / Kindle pour le train</label>
+    </div><div class="packing-hint">☑️ Les cases sont interactives : coche-les quand c'est dans la valise.</div></div></div></div>
+  </button>
+</div>
+</section>
+
 </main><footer>London Autumn '26 · 22—29 octobre 2026 · ♡</footer>
+
+<script>
+function toggleCase(card){
+  const open = card.classList.toggle('open');
+  card.setAttribute('aria-expanded', open ? 'true' : 'false');
+  const label = card.querySelector('.case-open');
+  if(label) label.textContent = open ? 'fermer la valise · −' : 'ouvrir la valise · +';
+}
+</script>
 </body></html>
