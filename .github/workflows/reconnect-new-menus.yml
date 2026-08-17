@@ -1,0 +1,68 @@
+name: Reconnect new menus
+
+on:
+  push:
+    paths:
+      - .github/reconnect-new-menus.trigger
+
+permissions:
+  contents: write
+
+jobs:
+  reconnect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add new menu links without replacing the existing page
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          marker = 'id="new-menus-injected"'
+          if marker not in s:
+              injection = r'''<script id="new-menus-injected">
+document.addEventListener('DOMContentLoaded',()=>{
+  const pages=[
+    ['✨','Nouveautés','nouveautes.html'],
+    ['🇬🇧','Anglais de survie','anglais.html'],
+    ['🧳','Nos valises','valises.html'],
+    ['🏙️','Survivre à Londres','survivre-londres.html'],
+    ['🍂','Automne & Harry Potter','automne-londres-harry-potter.html']
+  ];
+  const nav=document.querySelector('.sideNav');
+  if(nav){
+    pages.forEach(([icon,label,url])=>{
+      if(!nav.querySelector(`a[href="${url}"]`)){
+        const a=document.createElement('a');
+        a.href=url;
+        a.innerHTML=`<span class="ico">${icon}</span>${label}`;
+        nav.appendChild(a);
+      }
+    });
+  }
+  const grid=document.querySelector('#menu .grid');
+  if(grid){
+    pages.forEach(([icon,label,url],i)=>{
+      if(!grid.querySelector(`a[href="${url}"]`)){
+        const a=document.createElement('a');
+        a.className='card';
+        a.href=url;
+        a.innerHTML=`0${i+9} ${icon}<h2>${label}</h2><span class="go">ouvrir →</span>`;
+        grid.appendChild(a);
+      }
+    });
+  }
+});
+</script>'''
+              s = s.replace('</body>', injection + '\n</body>')
+              p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit the menu connection
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet && exit 0
+          git commit -m "Reconnect new travel menus"
+          git push
