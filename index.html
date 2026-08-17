@@ -79,10 +79,25 @@ body{padding-left:88px}
 .spooky-content{position:relative;z-index:10;max-width:1200px;margin:auto;padding:80px 6vw 120px}.spooky-content .eyebrow{color:#d79a72}.spooky-content .title{color:#f0d2bd;text-shadow:0 3px 18px #000}
 .spooky-intro{max-width:720px;line-height:1.8;color:#d8c9bd}.spooky-grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:30px}.spooky-event{background:#17141dce;border:1px solid #72505a;border-radius:24px;overflow:hidden;backdrop-filter:blur(7px);box-shadow:0 20px 55px #0008;transition:.3s}.spooky-event:hover{transform:translateY(-6px);border-color:#c47a53}.spooky-event-head{padding:24px;background:linear-gradient(135deg,#30202a99,#14121a99)}.spooky-event h3{font:600 34px 'Cormorant Garamond';color:#f0d4c0;margin:8px 0}.spooky-event-body{padding:20px;font-size:12px;line-height:1.7;color:#d8cbc3}.event-meta{display:flex;gap:8px;flex-wrap:wrap}.event-pill{padding:7px 10px;border-radius:999px;background:#3b2932;color:#eab99f;font-size:9px;text-transform:uppercase;letter-spacing:.08em}.event-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.event-link{padding:10px 12px;border-radius:999px;background:#d9a078;color:#171219;font-size:9px;text-transform:uppercase;font-weight:600}.event-check{display:flex;gap:9px;align-items:center;margin-top:13px}.event-check input{accent-color:#b96532}.spooky-note{margin-top:22px;padding:17px;border:1px solid #6f4c55;background:#17141dcc;border-radius:15px;font-size:11px;line-height:1.7}
 @media(max-width:700px){.moon{width:170px;height:170px;right:4%;top:80px}.manor{height:310px}.tower{height:270px}.windows{gap:10px;inset:45px 25px auto}.window{height:45px}.spooky-grid2{grid-template-columns:1fr}.spooky-content{padding:60px 5vw 100px}}
+
+#london-opening{position:fixed;inset:0;z-index:10000;background:#08131a;overflow:hidden;color:#f7ecd9;display:flex;align-items:center;justify-content:center;transition:opacity 1s ease}
+#london-opening.gone{opacity:0;pointer-events:none}
+.opening-sky{position:absolute;inset:0;background:linear-gradient(#07131f 0%,#182c39 55%,#42535a 100%)}
+.opening-sky:before{content:'';position:absolute;inset:0;background-image:radial-gradient(#fff 1px,transparent 1.5px),radial-gradient(#f7e8c7 1px,transparent 1.5px);background-size:91px 87px,137px 119px;opacity:.5}
+.opening-moon{position:absolute;width:130px;height:130px;border-radius:50%;background:#f8e5ad;box-shadow:0 0 70px #f8e5ad55;right:13%;top:13%}
+.opening-city{position:absolute;bottom:0;left:0;right:0;height:32%;background:linear-gradient(#1a2428,#10181c);clip-path:polygon(0 35%,8% 35%,8% 50%,15% 50%,15% 27%,23% 27%,23% 45%,30% 45%,30% 20%,39% 20%,39% 42%,48% 42%,48% 28%,56% 28%,56% 47%,65% 47%,65% 25%,74% 25%,74% 40%,82% 40%,82% 18%,90% 18%,90% 43%,100% 43%,100% 100%,0 100%)}
+.bigben-scene{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%) scale(.42);transform-origin:bottom center;width:300px;height:720px;transition:transform 5.5s cubic-bezier(.2,.7,.15,1)}
+.bigben-scene.close{transform:translateX(-50%) scale(1.55)}
+.tower{position:absolute;bottom:0;left:65px;width:170px;height:600px;background:linear-gradient(90deg,#806f5c,#b9a58a 50%,#766754);clip-path:polygon(18% 100%,18% 24%,0 19%,25% 0,75% 0,100% 19%,82% 24%,82% 100%)}
+.clock{position:absolute;left:91px;top:142px;width:118px;height:118px;border-radius:50%;background:#eee0bd;border:10px solid #65594b;box-shadow:0 0 0 5px #c7b496}.clock:before{content:'';position:absolute;width:3px;height:40px;background:#3b342d;left:57px;top:17px;transform:rotate(15deg);transform-origin:bottom}.clock:after{content:'';position:absolute;width:40px;height:3px;background:#3b342d;left:27px;top:58px;transform:rotate(5deg);transform-origin:right}
+.opening-door{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:74px;height:145px;background:#201a18;border:3px solid #9b896d;border-bottom:0;border-radius:40px 40px 0 0;opacity:0;transition:opacity 1s 4.5s;cursor:pointer;z-index:3}.bigben-scene.close .opening-door{opacity:1}.opening-door:after{content:'✦';position:absolute;right:9px;top:76px;color:#d9b77a}
+.opening-copy{position:absolute;z-index:5;bottom:7%;text-align:center;text-shadow:0 3px 20px #000;transition:opacity 1s}.opening-copy h1{font:600 clamp(32px,6vw,62px) 'Cormorant Garamond';margin:0}.opening-copy p{font-size:10px;letter-spacing:.18em;text-transform:uppercase;opacity:.8}.opening-hint{opacity:0;transition:opacity 1s 4.5s}.bigben-scene.close~.opening-copy .opening-hint{opacity:1}
+#welcome-screen{position:fixed;inset:0;z-index:10001;background:radial-gradient(circle at center,#4b3940,#17131b 65%,#08080c);display:flex;align-items:center;justify-content:center;text-align:center;color:#f4e6d2;opacity:0;pointer-events:none;transition:opacity 1.2s}.welcome-inner{padding:40px}.welcome-inner .small{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#d5a17e}.welcome-inner h2{font:600 clamp(45px,8vw,92px)/.9 'Cormorant Garamond';margin:20px 0}.welcome-inner p{font-size:12px;letter-spacing:.08em}.welcome-show{opacity:1!important;pointer-events:auto!important}
+@media(max-width:700px){.bigben-scene{transform:translateX(-50%) scale(.33)}.bigben-scene.close{transform:translateX(-50%) scale(1.2)}.opening-moon{width:90px;height:90px}}
 </style>
 </head>
 <body>
-<div id="top"></div><div id="bat-transition" aria-hidden="true"></div>
+<div id="top"></div><div id="london-opening"><div class="opening-sky"></div><div class="opening-moon"></div><div class="opening-city"></div><div class="bigben-scene" id="bigben"><div class="tower"></div><div class="clock"></div><button class="opening-door" id="opening-door" aria-label="Ouvrir la porte"></button></div><div class="opening-copy"><p>London · October 2026</p><h1>Une nouvelle histoire commence…</h1><p class="opening-hint">✦ Approche-toi de Big Ben et ouvre la porte ✦</p></div></div><div id="welcome-screen"><div class="welcome-inner"><div class="small">London · October 2026</div><h2>Bienvenue dans notre voyage à Londres.</h2><p>✦ La porte s'ouvre… ✦</p></div></div><div id="bat-transition" aria-hidden="true"></div>
 <nav class="side" aria-label="Navigation principale">
 <div class="sideLogo">L♡</div>
 <div class="sideNav">
@@ -204,4 +219,10 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.querySelectorAll('a[href="#halloween"]').forEach(a=>a.addEventListener('click',halloweenEntry));
 });
 </script>
-</body></html>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  const scene=document.getElementById('bigben'),door=document.getElementById('opening-door'),open=document.getElementById('london-opening'),welcome=document.getElementById('welcome-screen');
+  setTimeout(()=>scene.classList.add('close'),900);
+  door.addEventListener('click',()=>{welcome.classList.add('welcome-show');setTimeout(()=>{welcome.classList.remove('welcome-show');open.classList.add('gone');window.scrollTo({top:0,behavior:'instant'});},2800);});
+});
+</script></body></html>
