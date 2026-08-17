@@ -1,0 +1,62 @@
+name: Add side navigation
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  update-site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add responsive side navigation
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          css = """
+          html{scroll-behavior:smooth;scroll-padding-top:20px}
+          body{padding-left:88px}
+          .side{position:fixed;z-index:50;left:0;top:0;width:88px;height:100vh;background:#263f33;color:#efe7d8;display:flex;flex-direction:column;align-items:center;padding:18px 7px;box-shadow:8px 0 30px #35271b20}
+          .sideLogo{font:700 28px 'Cormorant Garamond';margin-bottom:22px}
+          .sideNav{display:flex;flex-direction:column;gap:7px;width:100%}
+          .sideNav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:60px;border-radius:15px;font-size:8px;letter-spacing:.05em;text-align:center;transition:.2s;color:#efe7d8}
+          .sideNav a:hover,.sideNav a:focus{background:#efe7d81c;transform:translateX(2px)}
+          .sideNav .ico{font-size:20px}
+          .sideHome{margin-top:auto}
+          @media(max-width:1050px){body{padding-left:0}.side{width:100%;height:64px;top:auto;bottom:0;left:0;right:0;flex-direction:row;padding:4px 7px;box-shadow:0 -8px 30px #35271b20}.sideLogo{display:none}.sideNav{flex-direction:row;justify-content:space-around;gap:2px}.sideNav a{min-height:54px;flex:1}.sideNav .ico{font-size:17px}.sideHome{margin-top:0}}
+          """
+          marker = "</style>"
+          if '.side{position:fixed' not in s:
+              s = s.replace(marker, css + marker, 1)
+
+          nav = '''<nav class="side" aria-label="Navigation principale">
+          <div class="sideLogo">L♡</div>
+          <div class="sideNav">
+          <a class="sideHome" href="#top"><span class="ico">⌂</span>Accueil</a>
+          <a href="#participants"><span class="ico">♡</span>Voyageurs</a>
+          <a href="#trajets"><span class="ico">🚆</span>Trajets</a>
+          <a href="#activites"><span class="ico">🍂</span>À faire</a>
+          <a href="#journees"><span class="ico">🗓️</span>Journées</a>
+          <a href="#logement"><span class="ico">🏠</span>Logement</a>
+          <a href="#budget"><span class="ico">£</span>Budget</a>
+          </div></nav>\n'''
+          if '<nav class="side"' not in s:
+              s = s.replace('<body>', '<body>\n<div id="top"></div>\n' + nav, 1)
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit and remove workflow
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || git commit -m "Ajoute un menu lateral de navigation"
+          git rm .github/workflows/add-sidebar.yml
+          git commit -m "Supprime le workflow temporaire" || true
+          git push
