@@ -1,0 +1,59 @@
+name: Restore main travel menu
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  restore:
+    if: "!contains(github.event.head_commit.message, 'Restore main travel menu')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore working destinations and menu controls
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('final.html')
+          s = p.read_text(encoding='utf-8')
+
+          replacements = {
+              'href="#trajets"': 'href="journees.html#trajets"',
+              'href="#journees"': 'href="journees.html#journees"',
+              'href="#logement"': 'href="journees.html#logement"',
+              'href="#budget"': 'href="payer-londres.html"',
+          }
+          for old, new in replacements.items():
+              s = s.replace(old, new)
+
+          script = '''<script>
+          document.addEventListener('DOMContentLoaded', function () {
+            const drawer = document.getElementById('drawer');
+            const open = document.getElementById('openMenu');
+            const close = document.getElementById('closeMenu');
+            if (!drawer || !open || !close) return;
+            open.addEventListener('click', function () { drawer.classList.add('open'); });
+            close.addEventListener('click', function () { drawer.classList.remove('open'); });
+            drawer.addEventListener('click', function (e) {
+              if (e.target === drawer) drawer.classList.remove('open');
+            });
+            drawer.querySelectorAll('a').forEach(function (a) {
+              a.addEventListener('click', function () { drawer.classList.remove('open'); });
+            });
+          });
+          </script>'''
+          if 'id="openMenu"' in s and 'drawer.classList.add' not in s:
+              s = s.replace('</body>', script + '</body>')
+          p.write_text(s, encoding='utf-8')
+
+      - name: Commit restoration
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add final.html
+          git diff --cached --quiet && exit 0
+          git commit -m "Restore main travel menu"
+          git push
