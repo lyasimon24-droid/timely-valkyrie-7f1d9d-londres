@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded',()=>{if(document.querySelector('.si
 const groups=[
  {title:'Le voyage',items:[['01','♡','Les voyageurs','voyageurs.html'],['02','↗','Les trajets','trajets.html'],['03','✦','Les activités','activites.html'],['04','◷','Les journées','journees.html'],['05','⌂','Le logement','logement.html'],['06','£','Le budget','payer-londres.html']]},
  {title:'À préparer',items:[['07','Aa','Parler anglais à Londres','anglais.html'],['08','☂','Guide pratique','survivre-londres.html'],['09','▱','Nos valises','valises.html']]},
- {title:'Londres en images',items:[['10','◌','London mood','london-mood.html'],['11','✿','Pinterest · Cozy · TikTok','pinterest-cozy.html']]}
+ {title:'Londres en images',items:[['10','◌','London mood','london-mood.html'],['11','✿','Lya’s favs','pinterest-cozy.html']]}
 ];
 const b=document.createElement('button');b.className='site-menu';b.id='site-menu-toggle';b.setAttribute('aria-label','Ouvrir le menu');b.innerHTML='<span class="menu-lines"><i></i><i></i></span><span class="menu-label">Menu</span>';
 const o=document.createElement('div');o.className='site-menu-overlay';
