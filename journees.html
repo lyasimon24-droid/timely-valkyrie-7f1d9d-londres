@@ -345,5 +345,27 @@ document.querySelectorAll('.day').forEach(day=>{
 });
 </script>
 <script src="menu.js"></script>
-</body>
+<style>.day{transition:padding .35s ease,margin .35s ease}.day h2{cursor:pointer;position:relative;padding-right:42px}.day h2:after{content:'−';position:absolute;right:8px;top:0;font:400 28px/1 'Cormorant Garamond';color:#b96532}.day.auto-collapsed .day-content{display:none}.day.auto-collapsed h2:after{content:'+'}</style><script>
+document.addEventListener('DOMContentLoaded',()=>{
+ const days=[...document.querySelectorAll('.day')];
+ days.forEach((day,i)=>{
+  const heading=day.querySelector(':scope > h2'); if(!heading)return;
+  heading.setAttribute('tabindex','0'); heading.setAttribute('role','button');
+  const content=[...day.children].filter(el=>el!==heading);
+  const wrap=document.createElement('div'); wrap.className='day-content';
+  content.forEach(el=>wrap.appendChild(el)); day.appendChild(wrap);
+  const toggle=()=>{day.classList.toggle('auto-collapsed');heading.setAttribute('aria-expanded',String(!day.classList.contains('auto-collapsed')))};
+  heading.addEventListener('click',toggle);
+  heading.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle()}});
+  if(i<days.length-1){
+   const observer=new IntersectionObserver(entries=>{
+    if(entries[0].isIntersecting&&!day.classList.contains('auto-collapsed')){
+     setTimeout(()=>day.classList.add('auto-collapsed'),500); observer.disconnect();
+    }
+   },{rootMargin:'0px 0px -45% 0px',threshold:0});
+   observer.observe(wrap);
+  }
+ });
+});
+</script></body>
 </html>
